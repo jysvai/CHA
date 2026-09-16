@@ -88,7 +88,7 @@ Append-only. Never edited downward across 39 rounds. The claims that turned out 
 
 ## The five defect classes, as they actually appeared
 
-The five classes attached to every briefing were not chosen at a desk. They are the ones that **survived six rounds** — the ones a linter cannot see and a same-model review does not name.
+The five classes attached to every briefing were not chosen at a desk. They are the ones that **survived every round** — the ones a linter cannot see and a same-model review does not name.
 
 The snippets below are **reconstructions of the shape**, not verbatim diffs. The real files and line numbers are in the subject repository's record.
 

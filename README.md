@@ -34,7 +34,7 @@ CHA fixes this by **splitting the roles across platforms and never letting a cla
 
 ## Measured on a real codebase
 
-CHA was not designed on a whiteboard. It was extracted from a 6-round release review of `deel` — a zero-dependency Node CLI coding agent.
+CHA was not designed on a whiteboard. It was extracted from the release review of `deel` — a zero-dependency Node CLI coding agent.
 
 | | |
 |---|---|
@@ -165,7 +165,7 @@ Every claim is split by execution, not by reading — and the split is not close
 
 ## The five defect classes
 
-Every briefing carries these. They are the classes that survived six rounds — the ones a linter cannot see and a same-model review will not name:
+Every briefing carries these. They are the classes that survived every round — the ones a linter cannot see and a same-model review will not name:
 
 1. **A rule that never matches real input.** `/(1b|2b|3b)/` marked `qwen2.5-coder:32b` — a 32B model — as "too small", because `32b` contains `2b`.
 2. **Silent failure.** A sheet that could not be read was skipped with `catch { continue; }` and the result still said "read everything".

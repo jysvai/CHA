@@ -111,7 +111,7 @@ See [06 — Adjudication](06-adjudication.md).
 
 ## The five defect classes
 
-Every briefing carries these five. They are the classes that survived six rounds. All five share three properties: a linter cannot see them, a same-model review does not name them, and they hide behind a green suite.
+Every briefing carries these five. They are the classes that survived every round. All five share three properties: a linter cannot see them, a same-model review does not name them, and they hide behind a green suite.
 
 ### 1. A rule that never matches real input
 
