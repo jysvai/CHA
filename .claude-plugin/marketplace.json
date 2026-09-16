@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "cha",
+  "description": "CHA — Cyclic Hostile Adversarial Harnessing. A release-gate loop for coding agents.",
+  "owner": {
+    "name": "yunseok"
+  },
+  "plugins": [
+    {
+      "name": "cha",
+      "description": "Hunt, brief a second-eye reviewer on another platform, adjudicate every claim by execution, write the red test first, register a mutant for every fix, and never ship until the gate is green.",
+      "category": "quality",
+      "source": "./",
+      "homepage": "https://github.com/jysvai/CHA"
+    }
+  ]
+}

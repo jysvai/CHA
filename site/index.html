@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHA — Cyclic Hostile Adversarial Harnessing</title>
+<meta name="description" content="CHA — 순환형 적대적 하네싱. A release-gate loop for coding agents: a claim is not a defect until you have run it.">
+<meta name="author" content="yunseok">
+<meta name="color-scheme" content="light dark">
+<style>
+:root{
+  --bg:#fbfaf8;
+  --panel:#ffffff;
+  --ink:#191917;
+  --ink-2:#45443f;
+  --ink-3:#6b6a62;
+  --rule:#e3e0d9;
+  --rule-2:#cbc7bd;
+  --accent:#a93b24;
+  --code-bg:#f2f0eb;
+  --mark:#f6efe5;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#121211;
+    --panel:#191918;
+    --ink:#e9e7e2;
+    --ink-2:#b6b3ab;
+    --ink-3:#8b887f;
+    --rule:#2b2b28;
+    --rule-2:#3f3f3a;
+    --accent:#e28a6c;
+    --code-bg:#1e1e1c;
+    --mark:#221d19;
+  }
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+
+html{-webkit-text-size-adjust:100%;}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px;
+  line-height:1.75;
+  letter-spacing:-0.003em;
+}
+
+/* ── language switching ───────────────────────────────────────────── */
+html[data-lang="ko"] [data-lang="en"]{display:none !important;}
+html[data-lang="en"] [data-lang="ko"]{display:none !important;}
+
+/* ── shell ────────────────────────────────────────────────────────── */
+.bar{
+  position:sticky; top:0; z-index:10;
+  background:var(--bg);
+  border-bottom:1px solid var(--rule);
+}
+.bar-in{
+  max-width:780px; margin:0 auto; padding:10px 16px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.brand{
+  font:600 13px/1 ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  letter-spacing:0.14em; color:var(--ink-2); text-decoration:none;
+}
+.langs{display:flex; gap:0; border:1px solid var(--rule-2); border-radius:6px; overflow:hidden;}
+.langs button{
+  appearance:none; border:0; background:transparent; cursor:pointer;
+  color:var(--ink-3); font-size:12px; line-height:1; padding:7px 10px;
+  font-family:inherit;
+}
+.langs button + button{border-left:1px solid var(--rule-2);}
+.langs button[aria-pressed="true"]{background:var(--ink); color:var(--bg);}
+.langs button:focus-visible{outline:2px solid var(--accent); outline-offset:-2px;}
+
+main{max-width:780px; margin:0 auto; padding:0 16px 72px;}
+
+section{padding:40px 0; border-top:1px solid var(--rule);}
+section:first-of-type{border-top:0;}
+
+h1{
+  font-size:clamp(26px,6.2vw,38px); line-height:1.25; letter-spacing:-0.02em;
+  margin:36px 0 6px; font-weight:650;
+}
+h1 .sub{display:block; font-size:clamp(14px,3.4vw,17px); font-weight:400; color:var(--ink-3); letter-spacing:0; margin-top:8px; line-height:1.5;}
+h2{
+  font-size:clamp(19px,4.4vw,23px); line-height:1.35; letter-spacing:-0.015em;
+  margin:0 0 4px; font-weight:650;
+}
+h2 .alt{font-weight:400; color:var(--ink-3);}
+h3{font-size:16px; margin:26px 0 4px; font-weight:650; letter-spacing:-0.01em;}
+.lede{color:var(--ink-2); margin:0 0 22px; font-size:15px;}
+p{margin:0 0 15px; max-width:66ch;}
+ul{margin:0 0 15px; padding-left:20px; max-width:66ch;}
+li{margin:0 0 7px;}
+strong{font-weight:650;}
+a{color:var(--ink); text-decoration-color:var(--rule-2); text-underline-offset:3px;}
+a:hover{text-decoration-color:var(--accent);}
+
+code{
+  font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  font-size:0.875em; background:var(--code-bg); padding:1px 5px; border-radius:4px;
+  overflow-wrap:anywhere;
+}
+pre{
+  background:var(--code-bg); border:1px solid var(--rule);
+  border-radius:8px; padding:14px 16px; margin:0 0 15px;
+  overflow-x:auto; font-size:13px; line-height:1.7;
+}
+pre code{background:none; padding:0; font-size:inherit; overflow-wrap:normal;}
+
+blockquote{
+  margin:0 0 22px; padding:14px 18px;
+  background:var(--mark); border-left:2px solid var(--accent);
+  border-radius:0 6px 6px 0;
+}
+blockquote p{margin:0; font-size:15px;}
+
+.note{
+  font-size:14px; color:var(--ink-3); border-top:1px solid var(--rule);
+  padding-top:14px; margin-top:22px; max-width:66ch;
+}
+
+/* ── the failing patches ──────────────────────────────────────────── */
+.rows{margin:0 0 20px; border-top:1px solid var(--rule);}
+.row{
+  display:grid; grid-template-columns:1fr; gap:2px 20px;
+  padding:12px 0; border-bottom:1px solid var(--rule);
+}
+.row dt{font-weight:600; font-size:15px; margin:0;}
+.row dd{margin:0; color:var(--ink-2); font-size:15px;}
+@media (min-width:620px){
+  .row{grid-template-columns:230px minmax(0,1fr);}
+}
+
+/* ── figures (inline SVG) ─────────────────────────────────────────── */
+:root{
+  --fig-bg:#ffffff; --fig-panel:#f5f3ef; --fig-ink:#191917;
+  --fig-muted:#6b6a62; --fig-rule:#cbc7bd; --fig-accent:#a93b24;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --fig-bg:#191918; --fig-panel:#232320; --fig-ink:#e9e7e2;
+    --fig-muted:#908d84; --fig-rule:#3f3f3a; --fig-accent:#e28a6c;
+  }
+}
+.fig{margin:26px 0 10px;}
+.fig-scroll{
+  overflow-x:auto; overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  border:1px solid var(--rule); border-radius:8px;
+  background:var(--panel); padding:10px;
+}
+.fig-scroll svg{display:block;}
+.fig figcaption{
+  margin-top:10px; font-size:13.5px; line-height:1.65; color:var(--ink-3);
+}
+.fig-hint{font-size:12.5px; color:var(--ink-3); margin:6px 0 0;}
+@media (min-width:900px){ .fig-hint{display:none;} }
+
+/* ── the loop ─────────────────────────────────────────────────────── */
+.loop-wrap{position:relative; margin:26px 0 8px;}
+.loop{
+  position:relative; list-style:none; margin:0;
+  padding:0 40px 0 0;
+}
+.loop::before{
+  content:""; position:absolute; left:13px; top:16px; bottom:16px;
+  width:1px; background:var(--rule-2);
+}
+.step{position:relative; padding:0 0 16px 40px; min-height:28px;}
+.step:last-child{padding-bottom:0;}
+.step .n{
+  position:absolute; left:0; top:0;
+  width:27px; height:27px; border-radius:50%;
+  border:1px solid var(--rule-2); background:var(--bg);
+  display:grid; place-items:center;
+  font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color:var(--ink-3); font-variant-numeric:tabular-nums;
+}
+.step .t{display:block; font-weight:650; font-size:15px; line-height:1.6;}
+.step .t .en-term{color:var(--ink-3); font-weight:400;}
+.step .d{display:block; color:var(--ink-2); font-size:14.5px; line-height:1.65;}
+.ret{
+  position:absolute; right:8px; top:13px; bottom:13px; width:24px;
+  border:1.5px solid var(--accent); border-left:0; border-radius:0 12px 12px 0;
+  pointer-events:none;
+}
+.ret::after{
+  content:""; position:absolute; left:-1px; top:-6px;
+  width:0; height:0; border:6px solid transparent;
+  border-right-color:var(--accent); border-left:0;
+}
+.loop-cond{
+  margin:14px 0 0; padding-left:40px; font-size:14px; color:var(--accent);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (max-width:420px){
+  .loop{padding-right:30px;}
+  .ret{right:2px; width:20px;}
+  .loop-cond{padding-left:0;}
+}
+
+/* ── numbers ──────────────────────────────────────────────────────── */
+.figs{margin:22px 0 0; border-top:1px solid var(--rule);}
+.fig{
+  display:grid; grid-template-columns:1fr; gap:1px 20px;
+  padding:11px 0; border-bottom:1px solid var(--rule);
+}
+.fig dt{margin:0; font-size:14px; color:var(--ink-3);}
+.fig dd{
+  margin:0; font-size:14.5px;
+  font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  font-variant-numeric:tabular-nums; overflow-wrap:anywhere;
+}
+@media (min-width:620px){
+  .fig{grid-template-columns:250px minmax(0,1fr); align-items:baseline;}
+}
+
+/* ── defect classes ───────────────────────────────────────────────── */
+.classes{list-style:none; margin:24px 0 0; padding:0; counter-reset:dc;}
+.classes > li{
+  position:relative; padding:0 0 20px 34px; margin:0 0 20px;
+  border-bottom:1px solid var(--rule); counter-increment:dc;
+}
+.classes > li:last-child{border-bottom:0; margin-bottom:0; padding-bottom:0;}
+.classes > li::before{
+  content:counter(dc); position:absolute; left:0; top:2px;
+  font:600 13px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color:var(--accent);
+}
+.classes h3{margin:0 0 4px;}
+.classes p{margin:0; color:var(--ink-2); font-size:15px;}
+
+/* ── verdicts ─────────────────────────────────────────────────────── */
+.verdicts{margin:22px 0 0; border-top:1px solid var(--rule);}
+.verdict{padding:14px 0; border-bottom:1px solid var(--rule);}
+.verdict dt{
+  margin:0 0 3px; font-weight:650; font-size:15px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+.verdict dd{margin:0; color:var(--ink-2); font-size:15px;}
+
+footer{
+  max-width:780px; margin:0 auto; padding:26px 16px 56px;
+  border-top:1px solid var(--rule);
+  font-size:14px; color:var(--ink-3);
+}
+footer p{margin:0 0 6px;}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="bar-in">
+    <a class="brand" href="#top">CHA</a>
+    <div class="langs" role="group" aria-label="Language / 언어">
+      <button type="button" data-set-lang="ko" aria-pressed="true">한국어</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">English</button>
+    </div>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ══════════════ hero ══════════════ -->
+  <section>
+    <h1 data-lang="ko">CHA — 순환형 적대적 하네싱
+      <span class="sub">코딩 에이전트를 위한 배포 문턱 루프. Claude Code 플러그인.</span>
+    </h1>
+    <h1 data-lang="en">CHA — Cyclic Hostile Adversarial Harnessing
+      <span class="sub">A release-gate loop for coding agents. A Claude Code plugin.</span>
+    </h1>
+
+    <p data-lang="ko" class="lede">린터도 아니고 프롬프트 모음도 아닙니다. 이슈가 0 이 될 때까지 안 멈추고, 자기가 돌려 보지 않은 것은 믿지 않는 절차입니다.</p>
+    <p data-lang="en" class="lede">Not a linter, not a prompt pack — a process that keeps running until the issue count is zero, and that refuses to believe anything it has not executed.</p>
+
+    <blockquote>
+      <p data-lang="ko">나머지를 다 떠받치는 규칙 하나: <strong>돌려 보기 전에는 결함이 아니다.</strong></p>
+      <p data-lang="en">The one rule that makes the rest work: <strong>a claim is not a defect until you have run it.</strong></p>
+    </blockquote>
+  </section>
+
+  <!-- ══════════════ why ══════════════ -->
+  <section>
+    <h2><span data-lang="ko">왜 이게 필요한가</span><span data-lang="en">Why this exists</span></h2>
+
+    <p data-lang="ko">코딩 에이전트가 제 코드를 스스로 검토하는 것은, 고를 수 있는 검토자 중 제일 못 믿을 검토자를 고르는 일입니다. 그 코드를 제가 썼고, 같은 주석을 읽었고, 같은 자리가 안 보입니다. 그리고 확신이 없을 때 매끄럽고 자신 있는 <strong>틀린 답</strong>을 냅니다.</p>
+    <p data-lang="en">A coding agent reviewing its own work is the least reliable reviewer you can pick. It wrote the code, it read the same comments, it shares the same blind spots — and when it is unsure, it produces a fluent, confident, wrong answer.</p>
+
+    <p data-lang="ko">흔한 처방은 안 듣습니다.</p>
+    <p data-lang="en">The usual patches don't hold.</p>
+
+    <dl class="rows">
+      <div class="row">
+        <dt data-lang="ko">「네 diff 를 검토해 봐」</dt>
+        <dt data-lang="en">“Review your own diff”</dt>
+        <dd data-lang="ko">같은 모델 · 같은 맥락 · 같은 사각지대.</dd>
+        <dd data-lang="en">Same model, same context, same blind spot.</dd>
+      </div>
+      <div class="row">
+        <dt data-lang="ko">같은 모델로 한 번 더</dt>
+        <dt data-lang="en">A second pass from the same model</dt>
+        <dd data-lang="ko">오류가 <strong>상관</strong>되어 있습니다. 자기 말에 동의합니다.</dd>
+        <dd data-lang="en">Correlated errors. It agrees with itself.</dd>
+      </div>
+      <div class="row">
+        <dt data-lang="ko">더 센 린터</dt>
+        <dt data-lang="en">A stricter linter</dt>
+        <dd data-lang="ko">모양은 보지만 <strong>거짓말</strong>은 못 봅니다. 코드와 어긋난 주석은 초록입니다.</dd>
+        <dd data-lang="en">Finds shapes, not lies. A comment that contradicts its code is green.</dd>
+      </div>
+      <div class="row">
+        <dt data-lang="ko">검사를 더</dt>
+        <dt data-lang="en">More tests</dt>
+        <dd data-lang="ko"><strong>아무것도 안 재는 검사</strong>도 초록입니다. 아무도 모릅니다.</dd>
+        <dd data-lang="en">A test that asserts nothing is also green. Nobody notices.</dd>
+      </div>
+    </dl>
+
+    <p data-lang="ko">CHA 는 <strong>역할을 플랫폼째 가르고, 안 돌려 본 주장은 통과시키지 않는 것</strong>으로 이걸 막습니다.</p>
+    <p data-lang="en">CHA fixes this by <strong>splitting the roles across platforms and never letting a claim through unexecuted</strong>.</p>
+
+    <ul data-lang="ko">
+      <li><strong>다른 플랫폼이 본다.</strong> 학습이 다르고 실패 방식이 달라서, 환각이 서로 상관되지 않습니다.</li>
+      <li><strong>코드는 한 곳만 쓴다.</strong> 수정이 한 줄로 서서, 고침이 반만 붙는 일이 안 납니다.</li>
+      <li><strong>모든 주장은 실행으로 가른다.</strong> 실제로 잰 회차에서 지적 57건 → 참 22건. 읽기만 해서는 어느 쪽이 어느 쪽인지 알 수 없었습니다.</li>
+      <li><strong>고치기 전에 빨간 것을 먼저 증명한다.</strong> 그다음 초록으로 만듭니다.</li>
+      <li><strong>고친 자리마다 어긋(변이)을 박는다.</strong> 고친 줄을 일부러 망가뜨려 검사가 빨개지는지 봅니다. 그대로 초록이면 그 고침은 아무도 안 지키고 있는 것이고, 언젠가 누가 지웁니다.</li>
+      <li><strong>거짓 경고도 결함이다.</strong> 없는 고장을 말하는 코드는 조용한 코드와 값이 같습니다.</li>
+    </ul>
+    <ul data-lang="en">
+      <li><strong>A different platform reviews.</strong> Different training, different failure modes, uncorrelated hallucinations.</li>
+      <li><strong>Only one agent writes code.</strong> Edits stay serialized, so a fix is never half-applied by two writers.</li>
+      <li><strong>Every claim is adjudicated by execution.</strong> In the measured run, 57 claims came back and 22 survived being run. Reading alone would not have told you which.</li>
+      <li><strong>Every fix is proved red first</strong>, then green.</li>
+      <li><strong>Every fix gets a mutant.</strong> Break the fixed line on purpose and confirm a test goes red. If it stays green, the fix is unguarded and someone will delete it.</li>
+      <li><strong>A false warning is a defect.</strong> Code that cries wolf costs the same as code that is silent.</li>
+    </ul>
+  </section>
+
+  <!-- ══════════════ the loop ══════════════ -->
+  <section>
+    <h2><span data-lang="ko">루프 — 아홉 걸음</span><span data-lang="en">The loop — nine steps</span></h2>
+    <p data-lang="ko" class="lede">순서대로 돕니다. 하나를 건너뛴다고 빨라지지 않습니다. 값이 더 안 보이는 자리로 옮겨 갈 뿐입니다.</p>
+    <p data-lang="en" class="lede">They run in order. Skipping one does not speed the loop up — it moves the cost to a place where it is harder to see.</p>
+
+    <figure class="fig">
+      <div class="fig-scroll">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" style="width:100%;height:auto;min-width:900px" role="img" aria-labelledby="loop-t loop-d">
+<title id="loop-t">CHA — the nine-step loop</title>
+<desc id="loop-d">Nine steps in a closed cycle: hunt, brief, second eye, adjudicate, red test, fix, mutant, gate, record. Step three runs on another platform and is read-only. While the open issue count is above zero the loop returns to step one.</desc>
+<text x="50" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="21" font-weight="700" fill="var(--fig-ink)">CHA — 순환형 적대적 하네싱</text>
+<text x="50" y="72" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">Cyclic Hostile Adversarial Harnessing · the nine-step loop</text>
+<line x1="50" y1="92" x2="1150" y2="92" stroke="var(--fig-rule)" stroke-width="1"/>
+<rect x="806" y="112" width="358" height="164" rx="10" fill="none" stroke="var(--fig-accent)" stroke-width="1.4" stroke-dasharray="6 5"/>
+<text x="818" y="254" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="11.5" font-weight="600" fill="var(--fig-accent)">다른 플랫폼 · 읽기 전용</text>
+<text x="818" y="270" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="var(--fig-muted)">another platform · read-only</text>
+<rect x="50" y="140" width="330" height="92" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<circle cx="76" cy="168" r="13" fill="var(--fig-accent)"/><text x="76" y="173" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="var(--fig-bg)" text-anchor="middle">1</text>
+<text x="100" y="167" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15.5" font-weight="700" fill="var(--fig-ink)">사냥</text><text x="100" y="187" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">hunt</text>
+<text x="68" y="214" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="var(--fig-muted)">first eye reads a slice, writes suspicions</text>
+<rect x="435" y="140" width="330" height="92" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<circle cx="461" cy="168" r="13" fill="var(--fig-accent)"/><text x="461" y="173" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="var(--fig-bg)" text-anchor="middle">2</text>
+<text x="485" y="167" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15.5" font-weight="700" fill="var(--fig-ink)">브리핑</text><text x="485" y="187" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">brief</text>
+<text x="453" y="214" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="var(--fig-muted)">cut to ≤20KB + the promises</text>
+<rect x="820" y="140" width="330" height="92" rx="8" fill="var(--fig-panel)" stroke="var(--fig-accent)" stroke-width="1.5"/>
+<circle cx="846" cy="168" r="13" fill="var(--fig-accent)"/><text x="846" y="173" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="var(--fig-bg)" text-anchor="middle">3</text>
+<text x="870" y="167" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15.5" font-weight="700" fill="var(--fig-ink)">2차 눈</text><text x="870" y="187" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">second eye</text>
+<text x="838" y="214" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="var(--fig-muted)">another platform, read-only</text>
+<rect x="50" y="330" width="330" height="92" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<circle cx="76" cy="358" r="13" fill="var(--fig-accent)"/><text x="76" y="363" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="var(--fig-bg)" text-anchor="middle">4</text>
+<text x="100" y="357" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15.5" font-weight="700" fill="var(--fig-ink)">판정</text><text x="100" y="377" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">adjudicate</text>
+<text x="68" y="404" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="var(--fig-muted)">run it: 참 / 거짓 / 못 잼</text>
+<rect x="435" y="330" width="330" height="92" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<circle cx="461" cy="358" r="13" fill="var(--fig-accent)"/><text x="461" y="363" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="var(--fig-bg)" text-anchor="middle">5</text>
+<text x="485" y="357" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15.5" font-weight="700" fill="var(--fig-ink)">빨간 검사</text><text x="485" y="377" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">red test</text>
+<text x="453" y="404" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="var(--fig-muted)">prove the failure first</text>
+<rect x="820" y="330" width="330" height="92" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<circle cx="846" cy="358" r="13" fill="var(--fig-accent)"/><text x="846" y="363" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="var(--fig-bg)" text-anchor="middle">6</text>
+<text x="870" y="357" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15.5" font-weight="700" fill="var(--fig-ink)">고침</text><text x="870" y="377" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">fix</text>
+<text x="838" y="404" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="var(--fig-muted)">one writer, one defect</text>
+<rect x="50" y="480" width="330" height="92" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<circle cx="76" cy="508" r="13" fill="var(--fig-accent)"/><text x="76" y="513" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="var(--fig-bg)" text-anchor="middle">7</text>
+<text x="100" y="507" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15.5" font-weight="700" fill="var(--fig-ink)">어긋</text><text x="100" y="527" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">mutant</text>
+<text x="68" y="554" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="var(--fig-muted)">break it on purpose</text>
+<rect x="435" y="480" width="330" height="92" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<circle cx="461" cy="508" r="13" fill="var(--fig-accent)"/><text x="461" y="513" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="var(--fig-bg)" text-anchor="middle">8</text>
+<text x="485" y="507" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15.5" font-weight="700" fill="var(--fig-ink)">관문</text><text x="485" y="527" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">gate</text>
+<text x="453" y="554" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="var(--fig-muted)">real numbers, not "pass"</text>
+<rect x="820" y="480" width="330" height="92" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<circle cx="846" cy="508" r="13" fill="var(--fig-accent)"/><text x="846" y="513" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" font-weight="700" fill="var(--fig-bg)" text-anchor="middle">9</text>
+<text x="870" y="507" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15.5" font-weight="700" fill="var(--fig-ink)">기록</text><text x="870" y="527" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">record</text>
+<text x="838" y="554" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="var(--fig-muted)">append, never delete</text>
+<line x1="388" y1="186" x2="426" y2="186" stroke="var(--fig-muted)" stroke-width="1.4"/><path d="M435 186 L426 181 L426 191 Z" fill="var(--fig-muted)"/>
+<line x1="773" y1="186" x2="811" y2="186" stroke="var(--fig-muted)" stroke-width="1.4"/><path d="M820 186 L811 181 L811 191 Z" fill="var(--fig-muted)"/>
+<line x1="388" y1="376" x2="426" y2="376" stroke="var(--fig-muted)" stroke-width="1.4"/><path d="M435 376 L426 371 L426 381 Z" fill="var(--fig-muted)"/>
+<line x1="773" y1="376" x2="811" y2="376" stroke="var(--fig-muted)" stroke-width="1.4"/><path d="M820 376 L811 371 L811 381 Z" fill="var(--fig-muted)"/>
+<line x1="388" y1="526" x2="426" y2="526" stroke="var(--fig-muted)" stroke-width="1.4"/><path d="M435 526 L426 521 L426 531 Z" fill="var(--fig-muted)"/>
+<line x1="773" y1="526" x2="811" y2="526" stroke="var(--fig-muted)" stroke-width="1.4"/><path d="M820 526 L811 521 L811 531 Z" fill="var(--fig-muted)"/>
+<path d="M1100 232 V302 H215 V321" fill="none" stroke="var(--fig-muted)" stroke-width="1.4"/><path d="M215 330 L210 321 L220 321 Z" fill="var(--fig-muted)"/>
+<path d="M985 422 V452 H215 V471" fill="none" stroke="var(--fig-muted)" stroke-width="1.4"/><path d="M215 480 L210 471 L220 471 Z" fill="var(--fig-muted)"/>
+<path d="M985 572 V648 H25 V186 H41" fill="none" stroke="var(--fig-accent)" stroke-width="1.8"/><path d="M50 186 L41 181 L41 191 Z" fill="var(--fig-accent)"/>
+<rect x="462" y="634" width="236" height="26" rx="4" fill="var(--fig-bg)"/>
+<text x="580" y="652" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="700" fill="var(--fig-accent)" text-anchor="middle">이슈 &gt; 0 ? / issues &gt; 0 ?</text>
+<text x="50" y="706" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="12.5" fill="var(--fig-ink)">관문이 초록이고 열린 항목이 0 일 때만 멈춘다. 배포는 사람이 허락한 뒤에만.</text>
+<text x="50" y="728" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="var(--fig-muted)">It stops only when the gate is green and the open count is zero. Nothing ships without an explicit human go-ahead.</text>
+</svg>
+      </div>
+      <p class="fig-hint" data-lang="ko">그림은 옆으로 밀어서 볼 수 있습니다.</p>
+      <p class="fig-hint" data-lang="en">The diagram scrolls sideways.</p>
+      <figcaption data-lang="ko">아홉 걸음. 3번만 다른 플랫폼에서 돌고, 나머지는 전부 쓰는 곳 한 군데에서 돕니다.</figcaption>
+      <figcaption data-lang="en">Nine steps. Only step 3 runs on another platform; everything else runs where the one writer is.</figcaption>
+    </figure>
+
+    <div class="loop-wrap">
+      <ol class="loop">
+        <li class="step"><span class="n">1</span>
+          <span class="t">사냥 <span class="en-term">/ hunt</span></span>
+          <span class="d" data-lang="ko">1차 눈이 한 조각을 읽고 「의심」을 적는다. 판정은 안 한다.</span>
+          <span class="d" data-lang="en">The first eye reads a slice and writes down suspicions. No verdicts.</span>
+        </li>
+        <li class="step"><span class="n">2</span>
+          <span class="t">브리핑 <span class="en-term">/ brief</span></span>
+          <span class="d" data-lang="ko">소스를 20KB 이하로 자르고, 코드가 스스로 한 「약속」을 붙인다.</span>
+          <span class="d" data-lang="en">Cut the source into chunks of at most 20KB, with the promises the code makes attached.</span>
+        </li>
+        <li class="step"><span class="n">3</span>
+          <span class="t">2차 눈 <span class="en-term">/ second eye</span></span>
+          <span class="d" data-lang="ko">다른 플랫폼 · 고정된 모델 id · 읽기 전용 · 결함만.</span>
+          <span class="d" data-lang="en">Another platform, a pinned model id, read-only, defects only.</span>
+        </li>
+        <li class="step"><span class="n">4</span>
+          <span class="t">판정 <span class="en-term">/ adjudicate</span></span>
+          <span class="d" data-lang="ko">돌려 본다. 참 / 거짓 / 못 잼.</span>
+          <span class="d" data-lang="en">Run it. 참 true / 거짓 false / 못 잼 unmeasurable.</span>
+        </li>
+        <li class="step"><span class="n">5</span>
+          <span class="t">빨간 검사 <span class="en-term">/ red test</span></span>
+          <span class="d" data-lang="ko">소스를 건드리기 전에 실패를 증명한다. 빨개지는 것을 눈으로 본다.</span>
+          <span class="d" data-lang="en">Prove the failure before touching the source. Watch it go red, and keep the output.</span>
+        </li>
+        <li class="step"><span class="n">6</span>
+          <span class="t">고침 <span class="en-term">/ fix</span></span>
+          <span class="d" data-lang="ko">쓰는 곳은 한 군데. 커밋 하나에 결함 하나.</span>
+          <span class="d" data-lang="en">One writer. One defect per commit.</span>
+        </li>
+        <li class="step"><span class="n">7</span>
+          <span class="t">어긋 <span class="en-term">/ mutant</span></span>
+          <span class="d" data-lang="ko">고친 줄을 일부러 망가뜨리고, 검사가 알아채는지 본다.</span>
+          <span class="d" data-lang="en">Break the fix on purpose and confirm a test notices.</span>
+        </li>
+        <li class="step"><span class="n">8</span>
+          <span class="t">관문 <span class="en-term">/ gate</span></span>
+          <span class="d" data-lang="ko">검사 + 검사기 + 문서. 「통과」가 아니라 실제 숫자로 적는다.</span>
+          <span class="d" data-lang="en">Tests, lint, docs — reported as real numbers, not as the word “pass”.</span>
+        </li>
+        <li class="step"><span class="n">9</span>
+          <span class="t">기록 <span class="en-term">/ record</span></span>
+          <span class="d" data-lang="ko">끝에 보탠다. 영영 안 지운다.</span>
+          <span class="d" data-lang="en">Append forever. Never delete.</span>
+        </li>
+      </ol>
+      <div class="ret" aria-hidden="true"></div>
+    </div>
+    <p class="loop-cond">
+      <span data-lang="ko">이슈 &gt; 0 ? ──► 1번으로</span>
+      <span data-lang="en">issues &gt; 0 ? ──► back to 1</span>
+    </p>
+
+    <p class="note" data-lang="ko">숫자가 0 위에 있는 동안에는 아무것도 안 나갑니다. 끝나는 조건은 「알려진 버그 없음」이 아니라 <strong>「답 못 한 질문 없음」</strong>입니다 — 안 가른 지적 0, 샌 어긋 0, 못 잰 어긋 0, 초록 관문, 기록 보탬. 둘은 다르고, 확인할 수 있는 쪽은 뒤엣것뿐입니다.</p>
+    <p class="note" data-lang="en">Nothing ships while the count is above zero. The termination condition is not “no known bugs” but <strong>“no unanswered questions”</strong> — zero open claims, zero leaked mutants, zero unmeasurable mutants, a green gate, and the round appended to the record. Those are different, and only the second one can be checked.</p>
+  </section>
+
+  <!-- ══════════════ architecture ══════════════ -->
+  <section>
+    <h2><span data-lang="ko">조각들이 어떻게 붙나</span><span data-lang="en">How the pieces connect</span></h2>
+
+    <p data-lang="ko">그림에서 제일 중요한 선은 가운데 점선입니다. <strong>코드를 쓰는 곳은 왼쪽 하나뿐</strong>이고, 오른쪽 2차 눈은 브리핑 글을 받아 지적 글을 돌려줄 뿐 저장소에 손을 못 댑니다.</p>
+    <p data-lang="en">The important line in this diagram is the dashed one down the middle. <strong>Only the left side writes code.</strong> The second eye on the right receives briefing text and returns claim text; it never touches the repository.</p>
+
+    <p data-lang="ko">믿고 안 믿고의 문제가 아닙니다. 쓰는 곳이 둘이면 <strong>둘이 만나는 자리를 아무도 안 읽습니다</strong> — 한쪽이 봉인을 옮기고 다른 쪽이 그 봉인이 지키던 것을 옮기면, 각자 검사는 따로 초록이고 결함은 그 사이에 삽니다. 실제로 나온 꼴은 언제나 「머리말은 옳은 행동을 적고 있고, 코드는 두 부르는 자리 중 한 군데만 그렇게 하고 있다」 였습니다. 세 번 나왔습니다.</p>
+    <p data-lang="en">This is not about trust. With two writers, <strong>nobody reads the place where the two edits meet</strong> — one moves a guard, the other moves the thing it guarded, each suite is green separately, and the defect lives in between. The shape it actually took was always the same: the header describes the correct behaviour and only one of two call sites implements it. Found three times.</p>
+
+    <figure class="fig">
+      <div class="fig-scroll">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 760" style="width:100%;height:auto;min-width:980px" role="img" aria-labelledby="arch-t arch-d">
+<title id="arch-t">CHA — how the pieces connect</title>
+<desc id="arch-d">A left-to-right data flow. Everything with write access is on the left of a dashed read-only boundary: the plugin tools, the .cha files and the one writer. On the right is the second eye, on another platform with a pinned model id and no write tools, no shell and no repository access. It receives briefing text and returns claim text, and nothing else crosses.</desc>
+<text x="50" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="21" font-weight="700" fill="var(--fig-ink)">조각들이 어떻게 붙나 · how the pieces connect</text>
+<text x="50" y="72" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">one writer on the left · a read-only second eye on the right · every artefact under .cha/</text>
+<line x1="50" y1="92" x2="1190" y2="92" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="40" y="118" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="var(--fig-ink)">쓰는 곳 하나 / one writer</text>
+<text x="290" y="118" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="var(--fig-muted)">Claude Code + this plugin — the only thing with write access to the repo</text>
+<line x1="930" y1="104" x2="930" y2="700" stroke="var(--fig-accent)" stroke-width="1.6" stroke-dasharray="7 6"/>
+<text transform="rotate(-90 947 404)" x="947" y="404" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" font-weight="700" fill="var(--fig-accent)" text-anchor="middle">읽기 전용 경계 / read-only boundary</text>
+<rect x="40" y="132" width="875" height="34" rx="4" fill="#ececec" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="54" y="154" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="700" fill="var(--fig-ink)">.cha/config.json</text><text x="196" y="154" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="var(--fig-muted)">gate · secondEye · briefing.maxBytes · mutate · writer</text><text x="901" y="154" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="var(--fig-muted)" text-anchor="end">모든 도구가 읽는다 / every tool reads this</text>
+<rect x="40" y="194" width="194" height="52" rx="26" fill="#f1f1f0" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="137" y="217" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="var(--fig-ink)" text-anchor="middle">src/**</text><text x="137" y="234" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">the source under review</text>
+<rect x="267" y="194" width="194" height="52" rx="9" fill="var(--fig-panel)" stroke="var(--fig-accent)" stroke-width="1.5"/>
+<text x="364" y="217" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="var(--fig-ink)" text-anchor="middle">tools/brief.mjs</text><text x="364" y="234" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">≤20480 bytes</text>
+<rect x="494" y="194" width="194" height="52" rx="3" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="591" y="225" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="var(--fig-ink)" text-anchor="middle">.cha/briefings/*.md</text>
+<rect x="721" y="194" width="194" height="52" rx="9" fill="var(--fig-panel)" stroke="var(--fig-accent)" stroke-width="1.5"/>
+<text x="818" y="217" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="var(--fig-ink)" text-anchor="middle">tools/queue.mjs</text><text x="818" y="234" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">serial · quota-aware</text>
+<rect x="40" y="304" width="194" height="52" rx="3" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="137" y="335" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="var(--fig-ink)" text-anchor="middle">.cha/answers/*.md</text>
+<rect x="267" y="304" width="194" height="52" rx="26" fill="#f1f1f0" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="364" y="327" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="var(--fig-ink)" text-anchor="middle">판정 / adjudicate</text><text x="364" y="344" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">돌려 본다 / by execution</text>
+<rect x="494" y="304" width="194" height="52" rx="26" fill="#f1f1f0" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="591" y="327" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="var(--fig-ink)" text-anchor="middle">빨간 검사 / red test</text><text x="591" y="344" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">watch it fail first</text>
+<rect x="721" y="304" width="194" height="52" rx="26" fill="#f1f1f0" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="818" y="327" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="var(--fig-ink)" text-anchor="middle">고침 / fix</text><text x="818" y="344" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">one writer, one defect</text>
+<rect x="40" y="414" width="194" height="52" rx="9" fill="var(--fig-panel)" stroke="var(--fig-accent)" stroke-width="1.5"/>
+<text x="137" y="437" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="var(--fig-ink)" text-anchor="middle">tools/add-mutant.mjs</text><text x="137" y="454" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">anchor lifted, never retyped</text>
+<rect x="267" y="414" width="194" height="52" rx="3" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="364" y="445" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="var(--fig-ink)" text-anchor="middle">.cha/mutants.json</text>
+<rect x="494" y="414" width="194" height="52" rx="9" fill="var(--fig-panel)" stroke="var(--fig-accent)" stroke-width="1.5"/>
+<text x="591" y="437" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="var(--fig-ink)" text-anchor="middle">tools/mutate.mjs</text><text x="591" y="454" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">restore in a finally</text>
+<rect x="721" y="414" width="194" height="52" rx="26" fill="#f1f1f0" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="818" y="437" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="var(--fig-ink)" text-anchor="middle">잡음 / 샜음 / 못 잼</text><text x="818" y="454" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">caught / leaked / unmeasurable</text>
+<rect x="40" y="524" width="194" height="52" rx="26" fill="#f1f1f0" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="137" y="547" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="var(--fig-ink)" text-anchor="middle">관문 / gate</text><text x="137" y="564" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">tests · check · docs</text>
+<rect x="267" y="524" width="194" height="52" rx="9" fill="var(--fig-panel)" stroke="var(--fig-accent)" stroke-width="1.5"/>
+<text x="364" y="547" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="var(--fig-ink)" text-anchor="middle">tools/record.mjs</text><text x="364" y="564" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">refuses to shrink the file</text>
+<rect x="494" y="524" width="421" height="52" rx="3" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="704.5" y="547" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="var(--fig-ink)" text-anchor="middle">.cha/record.md</text><text x="704.5" y="564" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)" text-anchor="middle">보태기만 · append-only · never edited downward</text>
+<rect x="968" y="194" width="232" height="176" rx="9" fill="var(--fig-panel)" stroke="var(--fig-accent)" stroke-width="1.5"/>
+<text x="1084" y="220" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="700" fill="var(--fig-ink)" text-anchor="middle">2차 눈 / second eye</text>
+<text x="982" y="246" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-ink)">다른 플랫폼 / another platform</text>
+<text x="982" y="261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)">모델 id 못박음 / pinned model id</text>
+<text x="982" y="276" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-ink)">받는 것: 브리핑 글만</text>
+<text x="982" y="291" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)">receives: briefing text only</text>
+<text x="982" y="306" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-ink)">보내는 것: 지적 글만</text>
+<text x="982" y="321" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)">returns: claim text only</text>
+<text x="982" y="336" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-ink)">쓰기 도구 · 셸 · 저장소 접근 없음</text>
+<text x="982" y="351" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="var(--fig-muted)">no writes · no shell · no repo</text>
+<line x1="240" y1="220" x2="258" y2="220" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M267 220 L258 215 L258 225 Z" fill="var(--fig-muted)"/>
+<line x1="467" y1="220" x2="485" y2="220" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M494 220 L485 215 L485 225 Z" fill="var(--fig-muted)"/>
+<line x1="694" y1="220" x2="712" y2="220" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M721 220 L712 215 L712 225 Z" fill="var(--fig-muted)"/>
+<line x1="240" y1="330" x2="258" y2="330" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M267 330 L258 325 L258 335 Z" fill="var(--fig-muted)"/>
+<line x1="467" y1="330" x2="485" y2="330" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M494 330 L485 325 L485 335 Z" fill="var(--fig-muted)"/>
+<line x1="694" y1="330" x2="712" y2="330" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M721 330 L712 325 L712 335 Z" fill="var(--fig-muted)"/>
+<line x1="240" y1="440" x2="258" y2="440" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M267 440 L258 435 L258 445 Z" fill="var(--fig-muted)"/>
+<line x1="467" y1="440" x2="485" y2="440" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M494 440 L485 435 L485 445 Z" fill="var(--fig-muted)"/>
+<line x1="694" y1="440" x2="712" y2="440" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M721 440 L712 435 L712 445 Z" fill="var(--fig-muted)"/>
+<line x1="240" y1="550" x2="258" y2="550" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M267 550 L258 545 L258 555 Z" fill="var(--fig-muted)"/>
+<line x1="467" y1="550" x2="485" y2="550" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M494 550 L485 545 L485 555 Z" fill="var(--fig-muted)"/>
+<line x1="921" y1="220" x2="959" y2="220" stroke="var(--fig-accent)" stroke-width="1.6"/><path d="M968 220 L959 215 L959 225 Z" fill="var(--fig-accent)"/>
+<path d="M968 344 H137 V295" fill="none" stroke="var(--fig-accent)" stroke-width="1.6"/><path d="M137 304 L132 295 L142 295 Z" fill="var(--fig-accent)"/>
+<path d="M818 356 V385 H137 V405" fill="none" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M137 414 L132 405 L142 405 Z" fill="var(--fig-muted)"/>
+<path d="M818 466 V495 H137 V515" fill="none" stroke="var(--fig-muted)" stroke-width="1.3"/><path d="M137 524 L132 515 L142 515 Z" fill="var(--fig-muted)"/>
+<line x1="40" y1="622" x2="915" y2="622" stroke="var(--fig-rule)" stroke-width="1"/>
+<rect x="40" y="640" width="26" height="16" rx="3" fill="var(--fig-panel)" stroke="var(--fig-rule)"/><text x="74" y="653" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="var(--fig-muted)">파일 / file</text>
+<rect x="172" y="640" width="26" height="16" rx="6" fill="var(--fig-panel)" stroke="var(--fig-accent)" stroke-width="1.5"/><text x="206" y="653" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="var(--fig-muted)">도구 / tool (tools/*.mjs)</text>
+<rect x="388" y="640" width="26" height="16" rx="8" fill="#f1f1f0" stroke="var(--fig-rule)"/><text x="422" y="653" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="var(--fig-muted)">단계 / step</text>
+<text x="40" y="700" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="12.5" fill="var(--fig-ink)">쓰는 곳이 둘이면 두 수정이 만나는 자리를 아무도 안 읽는다. 반만 붙은 고침이 나오는 자리가 거기다 — 세 번 나왔다.</text>
+<text x="40" y="722" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" fill="var(--fig-muted)">Two writers produce edits whose interaction nobody read. That is where half-applied fixes come from — found three times.</text>
+</svg>
+      </div>
+      <p class="fig-hint" data-lang="ko">그림은 옆으로 밀어서 볼 수 있습니다.</p>
+      <p class="fig-hint" data-lang="en">The diagram scrolls sideways.</p>
+      <figcaption data-lang="ko">왼쪽은 쓰는 곳 하나, 오른쪽은 읽기만 하는 2차 눈. 가운데 점선이 읽기 전용 경계입니다. 아래쪽은 <code>.cha/</code> 의 파일들과 그것을 만드는 도구들.</figcaption>
+      <figcaption data-lang="en">One writer on the left, a read-only second eye on the right, the read-only boundary down the middle. Below: the files in <code>.cha/</code> and the tools that produce them.</figcaption>
+    </figure>
+
+  </section>
+
+  <!-- ══════════════ numbers ══════════════ -->
+  <section>
+    <h2><span data-lang="ko">실제로 잰 숫자</span><span data-lang="en">Measured on a real codebase</span></h2>
+    <p data-lang="ko" class="lede">CHA 는 책상에서 설계한 것이 아니라, 의존성 0 짜리 Node CLI 코딩 에이전트의 배포 검수에서 뽑아낸 절차입니다.</p>
+    <p data-lang="en" class="lede">CHA was not designed on a whiteboard. It was extracted from the release review of a zero-dependency Node CLI coding agent.</p>
+
+    <dl class="figs">
+      <div class="fig">
+        <dt><span data-lang="ko">검수 대상</span><span data-lang="en">Source under review</span></dt>
+        <dd>171 files · 77,607 lines</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">검사</span><span data-lang="en">Tests</span></dt>
+        <dd>154 files · 75,499 lines</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">마지막 관문</span><span data-lang="en">Last gate</span></dt>
+        <dd>12,596 pass · 0 fail · 1 skip · 156 of 156 files exited cleanly</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">검사기</span><span data-lang="en">Style check</span></dt>
+        <dd>OK across 167 files · 170 shipped files all LF</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">문서 검사</span><span data-lang="en">Docs check</span></dt>
+        <dd>62 pages · 0 broken links</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">등록된 어긋</span><span data-lang="en">Mutants registered</span></dt>
+        <dd>1,179 · across 138 source files / 119 test files</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">마지막 전수 어긋내기</span><span data-lang="en">Last full mutation sweep</span></dt>
+        <dd>1,149 in 2h46m → 1,125 caught · 2 leaked · 22 unmeasurable</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">돌린 관문</span><span data-lang="en">Gates run</span></dt>
+        <dd>39</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">2차 눈 브리핑</span><span data-lang="en">Briefings sent</span></dt>
+        <dd>39</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">올라온 지적 → 참</span><span data-lang="en">Claims received → true</span></dt>
+        <dd>57 → 22</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">실제로 고친 자리</span><span data-lang="en">Fixes landed</span></dt>
+        <dd>19</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">못 잼으로 적은 지적</span><span data-lang="en">Claims recorded unmeasurable</span></dt>
+        <dd>4</dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">누적 기록</span><span data-lang="en">Cumulative record</span></dt>
+        <dd><span data-lang="ko">2,745 lines · 한 번도 안 지움</span><span data-lang="en">2,745 lines · append-only</span></dd>
+      </div>
+      <div class="fig">
+        <dt><span data-lang="ko">커밋</span><span data-lang="en">Commits</span></dt>
+        <dd>434</dd>
+      </div>
+    </dl>
+
+    <h3><span data-lang="ko">초록 뒤에 숨어 있던 스물넷</span><span data-lang="en">The 24 the green build was hiding</span></h3>
+    <p data-lang="ko">전수 어긋내기가 찾아낸 것은 「아무 검사도 안 잡는 어긋 2개」와 「앵커가 낡아 <strong>아무것도 안 재고 있던</strong> 어긋 22개」였습니다. 뒤엣것이 더 위험합니다 — 목록에 이름이 있고, 개수에 세어지고, 빨강으로도 초록으로도 안 보입니다.</p>
+    <p data-lang="en">The full sweep found 2 mutants that no test caught, and 22 whose anchors had drifted — they were in the list, named, counted as present, and measuring <strong>nothing</strong>. That second category is the dangerous one: it is invisible in a red run and in a green run alike.</p>
+
+    <p class="note" data-lang="ko"><strong>이 숫자가 아닌 것.</strong> 저장소 하나 · 검토자 짝 하나 · 사람 하나에서 나온 숫자입니다. 루프가 실제 결함을 찾아낸다는 <strong>증거</strong>이지, 벤치마크가 아닙니다. 다른 저장소에서 같은 비율이 나온다는 뜻도 아니고, 여기 있는 어떤 숫자도 다른 방법과 견준 적이 없습니다.</p>
+    <p class="note" data-lang="en"><strong>What these numbers are not.</strong> They come from one codebase, one reviewer pairing, one person. They are <strong>evidence that the loop finds real things</strong> — not a benchmark. They do not claim the same ratios hold elsewhere, and none of them has been compared against another method.</p>
+  </section>
+
+  <!-- ══════════════ defect classes ══════════════ -->
+  <section>
+    <h2><span data-lang="ko">다섯 갈래 결함</span><span data-lang="en">The five defect classes</span></h2>
+    <p data-lang="ko" class="lede">브리핑마다 이 다섯을 붙입니다. 회차를 거듭하며 살아남은 갈래이고, 린터가 못 보고 같은 모델이 이름 붙이지 못하는 것들입니다.</p>
+    <p data-lang="en" class="lede">Every briefing carries these. They are the classes that survived round after round — the ones a linter cannot see and a same-model review will not name.</p>
+
+    <ol class="classes">
+      <li>
+        <h3><span data-lang="ko">실제 입력에 절대 안 맞는 규칙</span><span data-lang="en">A rule that never matches real input</span></h3>
+        <p data-lang="ko"><code>/(1b|2b|3b)/</code> 가 <code>qwen2.5-coder:32b</code> — 32B 모델 — 을 「작은 모델」로 셌습니다. <code>32b</code> 안에 <code>2b</code> 가 들어 있어서요.</p>
+        <p data-lang="en"><code>/(1b|2b|3b)/</code> marked <code>qwen2.5-coder:32b</code> — a 32B model — as “too small”, because <code>32b</code> contains <code>2b</code>.</p>
+      </li>
+      <li>
+        <h3><span data-lang="ko">조용한 실패</span><span data-lang="en">Silent failure</span></h3>
+        <p data-lang="ko">못 읽은 시트를 <code>catch { continue; }</code> 로 건너뛰고, 결과는 「다 읽었습니다」 였습니다.</p>
+        <p data-lang="en">A sheet that could not be read was skipped with <code>catch { continue; }</code> and the result still said “read everything”.</p>
+      </li>
+      <li>
+        <h3><span data-lang="ko">안 지키는 검사</span><span data-lang="en">A test that does not guard</span></h3>
+        <p data-lang="ko">이름은 「셈이 숫자가 아니면 안 받는다」 인데 <code>'many'</code> 하나만 물어봐서, <code>'3'</code> · <code>null</code> · <code>true</code> · <code>[]</code> 가 전부 그냥 지났습니다.</p>
+        <p data-lang="en">Named “rejects non-numeric counts”, it asked only about <code>'many'</code>, and let <code>'3'</code>, <code>null</code>, <code>true</code> and <code>[]</code> straight through.</p>
+      </li>
+      <li>
+        <h3><span data-lang="ko">주석과 코드의 모순</span><span data-lang="en">Comment contradicts code</span></h3>
+        <p data-lang="ko">머리말은 「<code>ok</code> 없는 줄은 성공으로 안 친다」 인데 코드는 성공으로 셌고, 실패율이 실제보다 낮게 나왔습니다.</p>
+        <p data-lang="en">The header said “a line with no <code>ok</code> is not counted as a success”; the code counted it as one, and the failure rate came out lower than reality.</p>
+      </li>
+      <li>
+        <h3><span data-lang="ko">신뢰 경계 누수</span><span data-lang="en">Trust-boundary leak</span></h3>
+        <p data-lang="ko"><code>--offline</code> 봉인을 바깥 주소를 세 번 두드린 뒤에 — 열쇠까지 실어 보낸 뒤에 — 봤습니다.</p>
+        <p data-lang="en"><code>--offline</code> was checked <em>after</em> the connection had already knocked on the external address three times, with the key attached.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ══════════════ verdicts ══════════════ -->
+  <section>
+    <h2><span data-lang="ko">판정은 셋 — 그리고 셋째가 핵심</span><span data-lang="en">Three verdicts — and the third one is the point</span></h2>
+    <p data-lang="ko" class="lede">주장이 참이 되는 조건 하나: <strong>거짓이었다면 다르게 굴었을 무언가를 실제로 돌려 봤을 때.</strong></p>
+    <p data-lang="en" class="lede">A claim is true when you have run something that <strong>would have behaved differently if it were false</strong>.</p>
+
+    <dl class="verdicts">
+      <div class="verdict">
+        <dt>참 / true</dt>
+        <dd data-lang="ko">돌려 봤고, 잘못된 동작이 나왔다. 명령과 그 출력을 같이 적는다.</dd>
+        <dd data-lang="en">Ran it, saw the wrong behaviour. The command and its output go into the record.</dd>
+      </div>
+      <div class="verdict">
+        <dt>거짓 / false</dt>
+        <dd data-lang="ko">돌려 봤고, 그런 동작이 안 나왔다. 「아니오」가 아니라 <strong>반증</strong>을 적는다. 같은 지적이 몇 회차 뒤에 다른 말로 다시 올라오기 때문입니다.</dd>
+        <dd data-lang="en">Ran it, did not see it. Record the <strong>counter-evidence</strong>, not just “no” — the same claim comes back a few rounds later in different words.</dd>
+      </div>
+      <div class="verdict">
+        <dt>못 잼 / unmeasurable</dt>
+        <dd data-lang="ko">여기서는 못 돌린다, 또는 주장이 양쪽으로 읽힌다. <strong>절대 거짓으로 적지 않습니다.</strong> 깨끗한 성적표를 위해 못 잰 것을 거짓으로 미는 순간, 숫자 전체가 뜻을 잃습니다.</dd>
+        <dd data-lang="en">Cannot be run here, or the claim reads both ways. <strong>Never recorded as false.</strong> The moment an unmeasurable claim is filed as false to keep the sheet clean, every other number on the sheet stops meaning anything.</dd>
+      </div>
+    </dl>
+
+    <p class="note" data-lang="ko">어긋내기에서도 같습니다. <strong>못 잼은 실패로 셉니다.</strong> 조용히 안 맞는 앵커는 「돌아가고, 아무것도 안 재고, 총계는 건강해 보이는」 줄이고 — 그게 바로 이 루프가 잡으려는 결함이 도구 안쪽에 들어앉은 모양입니다.</p>
+    <p class="note" data-lang="en">The same holds in the mutation sweep. <strong>Unmeasurable counts as failure.</strong> An anchor that silently stops matching is a line that runs, measures nothing, and keeps the total looking healthy — which is precisely the defect class this loop hunts, living inside the tool meant to find it.</p>
+    <figure class="fig">
+      <div class="fig-scroll">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" style="width:100%;height:auto;min-width:820px" role="img" aria-labelledby="verdicts-t verdicts-d">
+<title id="verdicts-t">CHA — 57 claims, split by execution</title>
+<desc id="verdicts-d">Fifty-seven second-eye claims enter and are split by execution, not by reading. Twenty-two were true and nineteen fixes landed. The false ones were recorded with counter-evidence and no code was edited. Four were unmeasurable and were recorded as unmeasurable, never as false.</desc>
+<text x="50" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="21" font-weight="700" fill="var(--fig-ink)">주장 57건, 실행으로 가른다</text>
+<text x="50" y="72" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)">57 claims · split by execution, never by plausibility</text>
+<line x1="50" y1="92" x2="950" y2="92" stroke="var(--fig-rule)" stroke-width="1"/>
+<rect x="40" y="200" width="190" height="80" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)"/>
+<text x="135" y="232" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="700" fill="var(--fig-ink)" text-anchor="middle">주장 57</text><text x="135" y="252" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="var(--fig-muted)" text-anchor="middle">57 claims received</text><text x="135" y="269" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="var(--fig-muted)" text-anchor="middle">39 briefings · 39 rounds</text>
+<text x="252" y="120" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="12.5" font-weight="700" fill="var(--fig-accent)">실행으로 가른다 / split by execution</text>
+<text x="252" y="137" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="var(--fig-muted)">a claim is true when you have run something that would behave differently if it were false</text>
+<path d="M230 240 C300 240, 320 162, 400 162" fill="none" stroke="var(--fig-accent)" stroke-width="1.6"/>
+<rect x="400" y="130" width="180" height="64" rx="8" fill="var(--fig-panel)" stroke="var(--fig-accent)" stroke-width="1.6"/>
+<text x="416" y="156" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="700" fill="var(--fig-ink)">참</text><text x="416" y="175" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="var(--fig-muted)">true</text>
+<text x="564" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="21" font-weight="700" fill="var(--fig-accent)" text-anchor="end">22</text>
+<line x1="586" y1="162" x2="641" y2="162" stroke="var(--fig-muted)" stroke-width="1.4"/><path d="M650 162 L641 157 L641 167 Z" fill="var(--fig-muted)"/>
+<rect x="650" y="130" width="310" height="64" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="666" y="150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="13" font-weight="700" fill="var(--fig-ink)">고침 19</text><text x="666" y="167" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="var(--fig-ink)">19 fixes landed</text><text x="666" y="183" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9.5" fill="var(--fig-muted)">빨간 검사 먼저 · 어긋으로 지킴 / guarded</text>
+<path d="M230 240 C300 240, 320 250, 400 250" fill="none" stroke="var(--fig-muted)" stroke-width="1.6"/>
+<rect x="400" y="218" width="180" height="64" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="416" y="244" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="700" fill="var(--fig-ink)">거짓</text><text x="416" y="263" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="var(--fig-muted)">false</text>
+<line x1="586" y1="250" x2="641" y2="250" stroke="var(--fig-muted)" stroke-width="1.4"/><path d="M650 250 L641 245 L641 255 Z" fill="var(--fig-muted)"/>
+<rect x="650" y="218" width="310" height="64" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1" stroke-dasharray="6 5"/>
+<text x="666" y="238" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="13" font-weight="700" fill="var(--fig-ink)">반증을 기록</text><text x="666" y="255" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="var(--fig-ink)">counter-evidence recorded</text><text x="666" y="271" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9.5" fill="var(--fig-muted)">코드는 안 건드림 / no code edited</text>
+<path d="M230 240 C300 240, 320 338, 400 338" fill="none" stroke="var(--fig-muted)" stroke-width="1.6"/>
+<rect x="400" y="306" width="180" height="64" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="416" y="332" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="700" fill="var(--fig-ink)">못 잼</text><text x="416" y="351" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="var(--fig-muted)">unmeasurable</text>
+<text x="564" y="344" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="21" font-weight="700" fill="var(--fig-accent)" text-anchor="end">4</text>
+<line x1="586" y1="338" x2="641" y2="338" stroke="var(--fig-muted)" stroke-width="1.4"/><path d="M650 338 L641 333 L641 343 Z" fill="var(--fig-muted)"/>
+<rect x="650" y="306" width="310" height="64" rx="8" fill="var(--fig-panel)" stroke="var(--fig-rule)" stroke-width="1"/>
+<text x="666" y="326" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="13" font-weight="700" fill="var(--fig-ink)">기록. 거짓 아님</text><text x="666" y="343" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="var(--fig-ink)">recorded, never as false</text><text x="666" y="359" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9.5" fill="var(--fig-muted)">하네스의 지도 / a map of the harness</text>
+<line x1="50" y1="424" x2="950" y2="424" stroke="var(--fig-rule)"/>
+<text x="50" y="452" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="13" fill="var(--fig-ink)">실행이 아니라 그럴듯함으로 움직였으면, 멀쩡한 코드에 35번 손을 댔을 것이다.</text>
+<text x="50" y="474" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="var(--fig-muted)">Acting on plausibility instead of execution would have meant 35 edits to working code.</text>
+<text x="50" y="496" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="var(--fig-muted)">57 − 22 = 35. 잰 숫자다, 어림이 아니다 / measured, not estimated.</text>
+</svg>
+      </div>
+      <p class="fig-hint" data-lang="ko">그림은 옆으로 밀어서 볼 수 있습니다.</p>
+      <p class="fig-hint" data-lang="en">The diagram scrolls sideways.</p>
+      <figcaption data-lang="ko">지적 57건이 <strong>실행으로</strong> 셋으로 갈립니다. 그럴듯함으로 움직였으면 멀쩡한 코드에 35번 손을 댔을 것입니다.</figcaption>
+      <figcaption data-lang="en">Fifty-seven claims split three ways <strong>by execution</strong>. Acting on plausibility instead would have meant 35 edits to working code.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ══════════════ refuses ══════════════ -->
+  <section>
+    <h2><span data-lang="ko">CHA 가 안 하는 것</span><span data-lang="en">What CHA refuses to do</span></h2>
+    <ul data-lang="ko">
+      <li>안 돌려 본 지적을 받아들이지 않습니다.</li>
+      <li>검토자에게 코드를 안 맡깁니다. 2차 눈은 읽기 전용이고, 쓰는 곳은 언제나 하나입니다.</li>
+      <li>기록에서 아무것도 안 지웁니다.</li>
+      <li>못 잰 것을 거짓이라고 안 적습니다.</li>
+      <li>건너뜀을 통과로 안 셉니다.</li>
+      <li>커밋 하나에 결함 둘을 안 넣습니다.</li>
+      <li>빨간 검사보다 고침을 먼저 쓰지 않습니다.</li>
+      <li>혼자 배포하지 않습니다. 태그·푸시는 사람이 허락한 뒤에만.</li>
+    </ul>
+    <ul data-lang="en">
+      <li>Accept a finding it did not run.</li>
+      <li>Let the reviewer write code. The second eye is read-only; there is always one writer.</li>
+      <li>Delete anything from the record.</li>
+      <li>Call an unmeasurable thing false.</li>
+      <li>Count a skip as a pass.</li>
+      <li>Put two defects in one commit.</li>
+      <li>Write a fix before a red test.</li>
+      <li>Ship on its own. Tag and push happen after a person says so.</li>
+    </ul>
+  </section>
+
+  <!-- ══════════════ install ══════════════ -->
+  <section>
+    <h2><span data-lang="ko">설치</span><span data-lang="en">Install</span></h2>
+
+    <p data-lang="ko">Claude Code 안에서:</p>
+    <p data-lang="en">Inside Claude Code:</p>
+<pre><code>/plugin marketplace add jysvai/CHA
+/plugin install cha@cha</code></pre>
+
+    <p data-lang="ko">그다음, 검수할 저장소에서:</p>
+    <p data-lang="en">Then, in the repo you want to review:</p>
+<pre><code>/cha-init</code></pre>
+
+    <p data-lang="ko"><code>.cha/</code>(설정 · 누적 기록 · 어긋 목록)를 깔고, 관문 명령을 알아내고, 2차 눈에 무엇이 필요한지 알려 줍니다. 명령 열 개 · 스킬 여섯 개 · 에이전트 세 개 · 의존성 0.</p>
+    <p data-lang="en">That writes <code>.cha/</code> — config, cumulative record, mutant list — detects the gate commands, and tells you what your second eye needs. Ten commands, six skills, three agents, zero dependencies.</p>
+  </section>
+
+</main>
+
+<footer>
+  <p data-lang="ko">CHA — 순환형 적대적 하네싱 · Apache-2.0 · yunseok</p>
+  <p data-lang="en">CHA — Cyclic Hostile Adversarial Harnessing · Apache-2.0 · yunseok</p>
+  <p><a href="https://github.com/jysvai/CHA">github.com/jysvai/CHA</a></p>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var btns = Array.prototype.slice.call(document.querySelectorAll('[data-set-lang]'));
+  function remembered() { try { return localStorage.getItem('cha-lang'); } catch (e) { return null; } }
+  function remember(l) { try { localStorage.setItem('cha-lang', l); } catch (e) { /* private window */ } }
+  function apply(l) {
+    root.setAttribute('data-lang', l);
+    root.lang = l;
+    btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === l)); });
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () { var l = b.getAttribute('data-set-lang'); remember(l); apply(l); });
+  });
+  apply(remembered() === 'en' ? 'en' : 'ko');
+})();
+</script>
+
+</body>
+</html>

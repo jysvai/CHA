@@ -1,0 +1,24 @@
+{
+  "gate": {
+    "test": "npm test",
+    "check": "npm run check",
+    "docs": "npm run docs"
+  },
+  "secondEye": {
+    "command": null,
+    "model": null,
+    "mode": "read-only",
+    "maxRetries": 6,
+    "backoffMs": 1200000,
+    "timeoutMs": 600000
+  },
+  "briefing": {
+    "maxBytes": 20480
+  },
+  "mutate": {
+    "testCommand": "node {file}",
+    "copy": ["src", "test", "bin", "lib", "docs", "tools", "package.json", "README.md", "LICENSE"],
+    "timeoutMs": 180000
+  },
+  "writer": "claude-only"
+}

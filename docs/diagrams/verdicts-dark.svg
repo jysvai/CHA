@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="1000" height="520" role="img" aria-labelledby="t d">
+<title id="t">CHA — 57 claims, split by execution</title>
+<desc id="d">Fifty-seven second-eye claims enter and are split by execution, not by reading. Twenty-two were true and nineteen fixes landed. The false ones were recorded with counter-evidence and no code was edited. Four were unmeasurable and were recorded as unmeasurable, never as false.</desc>
+<rect x="0" y="0" width="1000" height="520" fill="#0d1117"/><text x="50" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="21" font-weight="700" fill="#e6edf3">주장 57건, 실행으로 가른다</text>
+<text x="50" y="72" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="#8b949e">57 claims · split by execution, never by plausibility</text>
+<line x1="50" y1="92" x2="950" y2="92" stroke="#30363d" stroke-width="1"/>
+<rect x="40" y="200" width="190" height="80" rx="8" fill="#161b22" stroke="#30363d"/>
+<text x="135" y="232" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="17" font-weight="700" fill="#e6edf3" text-anchor="middle">주장 57</text><text x="135" y="252" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" fill="#8b949e" text-anchor="middle">57 claims received</text><text x="135" y="269" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#8b949e" text-anchor="middle">39 briefings · 39 rounds</text>
+<text x="252" y="120" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="12.5" font-weight="700" fill="#ff7b62">실행으로 가른다 / split by execution</text>
+<text x="252" y="137" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#8b949e">a claim is true when you have run something that would behave differently if it were false</text>
+<path d="M230 240 C300 240, 320 162, 400 162" fill="none" stroke="#ff7b62" stroke-width="1.6"/>
+<rect x="400" y="130" width="180" height="64" rx="8" fill="#161b22" stroke="#ff7b62" stroke-width="1.6"/>
+<text x="416" y="156" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="700" fill="#e6edf3">참</text><text x="416" y="175" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#8b949e">true</text>
+<text x="564" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="21" font-weight="700" fill="#ff7b62" text-anchor="end">22</text>
+<line x1="586" y1="162" x2="641" y2="162" stroke="#8b949e" stroke-width="1.4"/><path d="M650 162 L641 157 L641 167 Z" fill="#8b949e"/>
+<rect x="650" y="130" width="310" height="64" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+<text x="666" y="150" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="13" font-weight="700" fill="#e6edf3">고침 19</text><text x="666" y="167" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#e6edf3">19 fixes landed</text><text x="666" y="183" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9.5" fill="#8b949e">빨간 검사 먼저 · 어긋으로 지킴 / guarded</text>
+<path d="M230 240 C300 240, 320 250, 400 250" fill="none" stroke="#8b949e" stroke-width="1.6"/>
+<rect x="400" y="218" width="180" height="64" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+<text x="416" y="244" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="700" fill="#e6edf3">거짓</text><text x="416" y="263" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#8b949e">false</text>
+<line x1="586" y1="250" x2="641" y2="250" stroke="#8b949e" stroke-width="1.4"/><path d="M650 250 L641 245 L641 255 Z" fill="#8b949e"/>
+<rect x="650" y="218" width="310" height="64" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1" stroke-dasharray="6 5"/>
+<text x="666" y="238" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="13" font-weight="700" fill="#e6edf3">반증을 기록</text><text x="666" y="255" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#e6edf3">counter-evidence recorded</text><text x="666" y="271" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9.5" fill="#8b949e">코드는 안 건드림 / no code edited</text>
+<path d="M230 240 C300 240, 320 338, 400 338" fill="none" stroke="#8b949e" stroke-width="1.6"/>
+<rect x="400" y="306" width="180" height="64" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+<text x="416" y="332" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="700" fill="#e6edf3">못 잼</text><text x="416" y="351" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#8b949e">unmeasurable</text>
+<text x="564" y="344" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="21" font-weight="700" fill="#ff7b62" text-anchor="end">4</text>
+<line x1="586" y1="338" x2="641" y2="338" stroke="#8b949e" stroke-width="1.4"/><path d="M650 338 L641 333 L641 343 Z" fill="#8b949e"/>
+<rect x="650" y="306" width="310" height="64" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+<text x="666" y="326" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="13" font-weight="700" fill="#e6edf3">기록. 거짓 아님</text><text x="666" y="343" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#e6edf3">recorded, never as false</text><text x="666" y="359" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="9.5" fill="#8b949e">하네스의 지도 / a map of the harness</text>
+<line x1="50" y1="424" x2="950" y2="424" stroke="#30363d"/>
+<text x="50" y="452" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="13" fill="#e6edf3">실행이 아니라 그럴듯함으로 움직였으면, 멀쩡한 코드에 35번 손을 댔을 것이다.</text>
+<text x="50" y="474" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12" fill="#8b949e">Acting on plausibility instead of execution would have meant 35 edits to working code.</text>
+<text x="50" y="496" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#8b949e">57 − 22 = 35. 잰 숫자다, 어림이 아니다 / measured, not estimated.</text>
+</svg>

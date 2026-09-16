@@ -1,0 +1,22 @@
+{
+  "어긋들": [
+    {
+      "id": "rank-001",
+      "곳": "src/rank.js",
+      "무엇": "only the longest match scores",
+      "그러면": "a 3-variant word outranks a 1-variant word that matched better",
+      "찾을것": "const 다맞음 = 맞은낱말 >= 2 ? 12 : 0;",
+      "바꿀것": "const 다맞음 = 맞은낱말 >= 1 ? 12 : 0;",
+      "검사": "test/rank.test.js"
+    },
+    {
+      "id": "probe-001",
+      "where": "src/probe.js",
+      "what": "the offline flag is read before the first request, not after",
+      "then": "--offline knocks on the external address with the key attached",
+      "find": "if (설정.offline) return { 닿음: 0 };",
+      "replace": "if (false) return { 닿음: 0 };",
+      "test": "test/probe.test.js"
+    }
+  ]
+}

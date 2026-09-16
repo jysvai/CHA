@@ -1,0 +1,22 @@
+{
+  "어긋들": [
+    {
+      "id": "size-001",
+      "곳": "src/size.js",
+      "무엇": "the whole run of digits is the size, not one digit of it",
+      "그러면": "32b reads as unknown; isSmall stays right by accident, sizeOf does not",
+      "찾을것": "  const m = /(?:^|[^0-9.])(\\d+(?:\\.\\d+)?)\\s*b\\b/i.exec(String(name));",
+      "바꿀것": "  const m = /(?:^|[^0-9.])(\\d(?:\\.\\d+)?)\\s*b\\b/i.exec(String(name));",
+      "검사": "test/size.test.js"
+    },
+    {
+      "id": "size-002",
+      "곳": "src/size.js",
+      "무엇": "the 8B boundary is exclusive",
+      "그러면": "an 8B model is routed to the small-model path and runs out of context",
+      "찾을것": "  return n !== null && n < 8;",
+      "바꿀것": "  return n !== null && n <= 8;",
+      "검사": "test/size.test.js"
+    }
+  ]
+}

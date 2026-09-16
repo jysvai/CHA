@@ -1,0 +1,22 @@
+{
+  "gate": {
+    "test": "node test/size.test.js"
+  },
+  "secondEye": {
+    "command": null,
+    "model": null,
+    "mode": "read-only",
+    "maxRetries": 6,
+    "backoffMs": 1200000,
+    "timeoutMs": 600000
+  },
+  "briefing": {
+    "maxBytes": 20480
+  },
+  "mutate": {
+    "testCommand": "node {file}",
+    "copy": ["src", "test"],
+    "timeoutMs": 60000
+  },
+  "writer": "claude-only"
+}

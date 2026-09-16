@@ -1,0 +1,35 @@
+{
+  "name": "cha",
+  "version": "1.0.0",
+  "description": "CHA — Cyclic Hostile Adversarial Harnessing. A release-gate loop for coding agents: hunt, brief a second-eye reviewer on another platform, adjudicate every claim by execution, write the red test first, register a mutant for every fix, and never ship until the gate is green. Battle-tested on a 77k-line zero-dependency CLI: 12,596 tests, 1,179 mutants, 39 gates.",
+  "author": {
+    "name": "yunseok"
+  },
+  "homepage": "https://github.com/jysvai/CHA",
+  "repository": "https://github.com/jysvai/CHA",
+  "license": "Apache-2.0",
+  "keywords": [
+    "claude-code",
+    "review",
+    "mutation-testing",
+    "adversarial",
+    "multi-agent",
+    "second-opinion",
+    "hallucination",
+    "release-gate",
+    "tdd",
+    "quality",
+    "loop",
+    "harness"
+  ],
+  "skills": [
+    "./skills/"
+  ],
+  "commands": [
+    "./commands/"
+  ],
+  "agents": [
+    "./agents/"
+  ],
+  "hooks": "./hooks/hooks.json"
+}

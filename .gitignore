@@ -1,0 +1,31 @@
+# Intermediate CHA artifacts. The record and the mutant list are the
+# deliverables and stay tracked; briefings and answers are working files that
+# get regenerated every round.
+.cha/briefings/
+.cha/answers/
+
+# ...except the example's, which is a shipped artifact people are meant to read.
+!examples/.cha/briefings/
+!examples/.cha/briefings/**
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local overrides
+.env
+.env.local
+*.local
