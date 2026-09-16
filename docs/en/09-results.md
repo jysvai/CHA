@@ -18,6 +18,8 @@ Every number here was measured on one repository — `deel`, a zero-dependency N
 | Tests | **154 files · 75,499 lines** |
 | Commits | **434** |
 
+*Every figure above is the state at **gate 39 (2026-09-16)**. Later rounds move them — this is a snapshot of one measured moment, not a running total. The loop has not stopped.*
+
 The test line count is nearly the source line count. **That is not a good sign on its own.** It says there are a lot of tests, not that the tests guard anything. Only the mutation sweep separates those two, and it is below.
 
 ### The last gate

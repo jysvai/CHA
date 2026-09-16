@@ -50,6 +50,8 @@ CHA was not designed on a whiteboard. It was extracted from the release review o
 | Cumulative record | **2,745 lines**, never deleted |
 | Commits | **434** |
 
+*Every figure above is the state at **gate 39 (2026-09-16)**. Later rounds move them — this is a snapshot of one measured moment, not a running total. The loop has not stopped.*
+
 **The 24 that the green build was hiding.** The full sweep found 2 mutants that no test caught, and 22 whose anchors had drifted — they were in the list, named, counted as present, and measuring *nothing*. That last category is the dangerous one: it is invisible in both a red run and a green run.
 
 ---
