@@ -60,6 +60,32 @@ The example sweep must come back `2 잡음/caught · 0 샜음/leaked`. If you ch
 `tools/mutate.mjs`, run the example sweep on your platform and paste the output
 — that is the only end-to-end check this repository has.
 
+## Diagrams
+
+`docs/diagrams/*.svg` are **generated**. Changing one means editing
+`tools/gen-diagrams.mjs` and re-running it — never editing an SVG by hand:
+
+```bash
+node tools/gen-diagrams.mjs
+```
+
+Each diagram ships twice, light and dark, because GitHub strips `<style>` out of
+an SVG so a media query can never fire. A hand-edited dark copy drifts from the
+light one and **nobody notices**, because you only ever look at one of them at a
+time and the one you are looking at is always fine.
+
+The same command also rewrites the copies inlined in `site/index.html`, between
+`<!-- diagram:NAME -->` markers. That page is self-contained on purpose, so it
+carries its own copy of each diagram — and a copy nobody regenerates goes stale
+without ever looking stale. If a marker is missing the tool writes nothing to the
+page and exits non-zero rather than putting the diagram back where it guesses it
+went; a page that lost a diagram must not come back green.
+
+Then **open the result in a browser and look at it.** Checking label widths
+arithmetically is not enough — it cannot see a connector drawn across a box, and
+that is exactly the defect this generator keeps producing. A line routed through
+a node strikes out the text inside it while every width check still passes.
+
 ## Numbers
 
 **Every number in this repository is measured.** None of them are estimates,

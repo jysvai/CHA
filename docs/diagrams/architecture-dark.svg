@@ -6,65 +6,64 @@
 <line x1="50" y1="92" x2="1190" y2="92" stroke="#30363d" stroke-width="1"/>
 <text x="40" y="118" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3">쓰는 곳 하나 / one writer</text>
 <text x="290" y="118" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#8b949e">Claude Code + this plugin — the only thing with write access to the repo</text>
-<line x1="930" y1="104" x2="930" y2="700" stroke="#ff7b62" stroke-width="1.6" stroke-dasharray="7 6"/>
-<text transform="rotate(-90 947 404)" x="947" y="404" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" font-weight="700" fill="#ff7b62" text-anchor="middle">읽기 전용 경계 / read-only boundary</text>
+<line x1="930" y1="96" x2="930" y2="700" stroke="#ff7b62" stroke-width="1.6" stroke-dasharray="7 6"/>
+<rect x="805" y="99" width="250" height="26" rx="4" fill="#0d1117"/>
+<text x="930" y="117" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11.5" font-weight="700" fill="#ff7b62" text-anchor="middle">읽기 전용 경계 / read-only boundary</text>
 <rect x="40" y="132" width="875" height="34" rx="4" fill="#21262d" stroke="#30363d" stroke-width="1"/>
 <text x="54" y="154" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="700" fill="#e6edf3">.cha/config.json</text><text x="196" y="154" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#8b949e">gate · secondEye · briefing.maxBytes · mutate · writer</text><text x="901" y="154" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" fill="#8b949e" text-anchor="end">모든 도구가 읽는다 / every tool reads this</text>
-<rect x="40" y="194" width="194" height="52" rx="26" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
-<text x="137" y="217" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">src/**</text><text x="137" y="234" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">the source under review</text>
-<rect x="267" y="194" width="194" height="52" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
-<text x="364" y="217" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">tools/brief.mjs</text><text x="364" y="234" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">≤20480 bytes</text>
-<rect x="494" y="194" width="194" height="52" rx="3" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-<text x="591" y="225" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">.cha/briefings/*.md</text>
-<rect x="721" y="194" width="194" height="52" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
-<text x="818" y="217" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">tools/queue.mjs</text><text x="818" y="234" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">serial · quota-aware</text>
-<rect x="40" y="304" width="194" height="52" rx="3" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-<text x="137" y="335" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">.cha/answers/*.md</text>
-<rect x="267" y="304" width="194" height="52" rx="26" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
-<text x="364" y="327" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">판정 / adjudicate</text><text x="364" y="344" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">돌려 본다 / by execution</text>
-<rect x="494" y="304" width="194" height="52" rx="26" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
-<text x="591" y="327" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">빨간 검사 / red test</text><text x="591" y="344" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">watch it fail first</text>
-<rect x="721" y="304" width="194" height="52" rx="26" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
-<text x="818" y="327" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">고침 / fix</text><text x="818" y="344" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">one writer, one defect</text>
-<rect x="40" y="414" width="194" height="52" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
-<text x="137" y="437" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">tools/add-mutant.mjs</text><text x="137" y="454" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">anchor lifted, never retyped</text>
-<rect x="267" y="414" width="194" height="52" rx="3" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-<text x="364" y="445" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">.cha/mutants.json</text>
-<rect x="494" y="414" width="194" height="52" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
-<text x="591" y="437" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">tools/mutate.mjs</text><text x="591" y="454" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">restore in a finally</text>
-<rect x="721" y="414" width="194" height="52" rx="26" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
-<text x="818" y="437" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">잡음 / 샜음 / 못 잼</text><text x="818" y="454" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">caught / leaked / unmeasurable</text>
-<rect x="40" y="524" width="194" height="52" rx="26" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
-<text x="137" y="547" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">관문 / gate</text><text x="137" y="564" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">tests · check · docs</text>
-<rect x="267" y="524" width="194" height="52" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
-<text x="364" y="547" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">tools/record.mjs</text><text x="364" y="564" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">refuses to shrink the file</text>
-<rect x="494" y="524" width="421" height="52" rx="3" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-<text x="704.5" y="547" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">.cha/record.md</text><text x="704.5" y="564" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">보태기만 · append-only · never edited downward</text>
-<rect x="968" y="194" width="232" height="176" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
-<text x="1084" y="220" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="700" fill="#e6edf3" text-anchor="middle">2차 눈 / second eye</text>
-<text x="982" y="246" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#e6edf3">다른 플랫폼 / another platform</text>
-<text x="982" y="261" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e">모델 id 못박음 / pinned model id</text>
-<text x="982" y="276" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#e6edf3">받는 것: 브리핑 글만</text>
-<text x="982" y="291" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e">receives: briefing text only</text>
-<text x="982" y="306" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#e6edf3">보내는 것: 지적 글만</text>
-<text x="982" y="321" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e">returns: claim text only</text>
-<text x="982" y="336" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#e6edf3">쓰기 도구 · 셸 · 저장소 접근 없음</text>
-<text x="982" y="351" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e">no writes · no shell · no repo</text>
-<line x1="240" y1="220" x2="258" y2="220" stroke="#8b949e" stroke-width="1.3"/><path d="M267 220 L258 215 L258 225 Z" fill="#8b949e"/>
-<line x1="467" y1="220" x2="485" y2="220" stroke="#8b949e" stroke-width="1.3"/><path d="M494 220 L485 215 L485 225 Z" fill="#8b949e"/>
-<line x1="694" y1="220" x2="712" y2="220" stroke="#8b949e" stroke-width="1.3"/><path d="M721 220 L712 215 L712 225 Z" fill="#8b949e"/>
-<line x1="240" y1="330" x2="258" y2="330" stroke="#8b949e" stroke-width="1.3"/><path d="M267 330 L258 325 L258 335 Z" fill="#8b949e"/>
-<line x1="467" y1="330" x2="485" y2="330" stroke="#8b949e" stroke-width="1.3"/><path d="M494 330 L485 325 L485 335 Z" fill="#8b949e"/>
-<line x1="694" y1="330" x2="712" y2="330" stroke="#8b949e" stroke-width="1.3"/><path d="M721 330 L712 325 L712 335 Z" fill="#8b949e"/>
-<line x1="240" y1="440" x2="258" y2="440" stroke="#8b949e" stroke-width="1.3"/><path d="M267 440 L258 435 L258 445 Z" fill="#8b949e"/>
-<line x1="467" y1="440" x2="485" y2="440" stroke="#8b949e" stroke-width="1.3"/><path d="M494 440 L485 435 L485 445 Z" fill="#8b949e"/>
-<line x1="694" y1="440" x2="712" y2="440" stroke="#8b949e" stroke-width="1.3"/><path d="M721 440 L712 435 L712 445 Z" fill="#8b949e"/>
-<line x1="240" y1="550" x2="258" y2="550" stroke="#8b949e" stroke-width="1.3"/><path d="M267 550 L258 545 L258 555 Z" fill="#8b949e"/>
-<line x1="467" y1="550" x2="485" y2="550" stroke="#8b949e" stroke-width="1.3"/><path d="M494 550 L485 545 L485 555 Z" fill="#8b949e"/>
-<line x1="921" y1="220" x2="959" y2="220" stroke="#ff7b62" stroke-width="1.6"/><path d="M968 220 L959 215 L959 225 Z" fill="#ff7b62"/>
-<path d="M968 344 H137 V295" fill="none" stroke="#ff7b62" stroke-width="1.6"/><path d="M137 304 L132 295 L142 295 Z" fill="#ff7b62"/>
-<path d="M818 356 V385 H137 V405" fill="none" stroke="#8b949e" stroke-width="1.3"/><path d="M137 414 L132 405 L142 405 Z" fill="#8b949e"/>
-<path d="M818 466 V495 H137 V515" fill="none" stroke="#8b949e" stroke-width="1.3"/><path d="M137 524 L132 515 L142 515 Z" fill="#8b949e"/>
+<rect x="40" y="194" width="194" height="58" rx="29" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
+<text x="137" y="217" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">src/**</text><text x="137" y="238" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">the source under review</text>
+<rect x="267" y="194" width="194" height="58" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
+<text x="364" y="217" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">tools/brief.mjs</text><text x="364" y="238" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">≤20480 bytes</text>
+<rect x="494" y="194" width="194" height="58" rx="3" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+<text x="591" y="229" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">.cha/briefings/*.md</text>
+<rect x="721" y="194" width="194" height="58" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
+<text x="818" y="217" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">tools/queue.mjs</text><text x="818" y="238" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">serial · quota-aware</text>
+<rect x="40" y="304" width="194" height="58" rx="3" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+<text x="137" y="339" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">.cha/answers/*.md</text>
+<rect x="267" y="304" width="194" height="58" rx="29" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
+<text x="364" y="327" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">판정 / adjudicate</text><text x="364" y="348" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">돌려 본다 / by execution</text>
+<rect x="494" y="304" width="194" height="58" rx="29" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
+<text x="591" y="327" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">빨간 검사 / red test</text><text x="591" y="348" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">watch it fail first</text>
+<rect x="721" y="304" width="194" height="58" rx="29" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
+<text x="818" y="327" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">고침 / fix</text><text x="818" y="348" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">one writer, one defect</text>
+<rect x="40" y="414" width="194" height="58" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
+<text x="137" y="437" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">tools/add-mutant.mjs</text><text x="137" y="458" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">anchor lifted, never retyped</text>
+<rect x="267" y="414" width="194" height="58" rx="3" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+<text x="364" y="449" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">.cha/mutants.json</text>
+<rect x="494" y="414" width="194" height="58" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
+<text x="591" y="437" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">tools/mutate.mjs</text><text x="591" y="458" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">restore in a finally</text>
+<rect x="721" y="414" width="194" height="58" rx="29" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
+<text x="818" y="437" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">잡음 / 샜음 / 못 잼</text><text x="818" y="458" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">caught / leaked / unmeasurable</text>
+<rect x="40" y="524" width="194" height="58" rx="29" fill="#1c232c" stroke="#30363d" stroke-width="1"/>
+<text x="137" y="547" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="14" font-weight="700" fill="#e6edf3" text-anchor="middle">관문 / gate</text><text x="137" y="568" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">tests · check · docs</text>
+<rect x="267" y="524" width="194" height="58" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
+<text x="364" y="547" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">tools/record.mjs</text><text x="364" y="568" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">refuses to shrink the file</text>
+<rect x="494" y="524" width="421" height="58" rx="3" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+<text x="704.5" y="547" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12.5" font-weight="600" fill="#e6edf3" text-anchor="middle">.cha/record.md</text><text x="704.5" y="568" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e" text-anchor="middle">보태기만 · append-only · never edited downward</text>
+<rect x="968" y="194" width="232" height="262" rx="9" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/>
+<text x="1084" y="222" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="15" font-weight="700" fill="#e6edf3" text-anchor="middle">2차 눈 / second eye</text>
+<line x1="982" y1="234" x2="1186" y2="234" stroke="#30363d"/>
+<text x="982" y="256" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="11" font-weight="600" fill="#e6edf3">다른 플랫폼</text><text x="982" y="272" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e">another platform</text>
+<text x="982" y="296" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="11" font-weight="600" fill="#e6edf3">모델 id 못박음</text><text x="982" y="312" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e">pinned model id</text>
+<text x="982" y="336" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="11" font-weight="600" fill="#e6edf3">받는 것: 브리핑 글만</text><text x="982" y="352" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e">receives: briefing text only</text>
+<text x="982" y="376" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="11" font-weight="600" fill="#e6edf3">보내는 것: 지적 글만</text><text x="982" y="392" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e">returns: claim text only</text>
+<text x="982" y="416" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif" font-size="11" font-weight="600" fill="#e6edf3">쓰기 도구 · 셸 · 저장소 접근 없음</text><text x="982" y="432" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10" fill="#8b949e">no writes · no shell · no repo</text>
+<line x1="240" y1="223" x2="258" y2="223" stroke="#8b949e" stroke-width="1.3"/><path d="M267 223 L258 218 L258 228 Z" fill="#8b949e"/>
+<line x1="467" y1="223" x2="485" y2="223" stroke="#8b949e" stroke-width="1.3"/><path d="M494 223 L485 218 L485 228 Z" fill="#8b949e"/>
+<line x1="694" y1="223" x2="712" y2="223" stroke="#8b949e" stroke-width="1.3"/><path d="M721 223 L712 218 L712 228 Z" fill="#8b949e"/>
+<line x1="240" y1="333" x2="258" y2="333" stroke="#8b949e" stroke-width="1.3"/><path d="M267 333 L258 328 L258 338 Z" fill="#8b949e"/>
+<line x1="467" y1="333" x2="485" y2="333" stroke="#8b949e" stroke-width="1.3"/><path d="M494 333 L485 328 L485 338 Z" fill="#8b949e"/>
+<line x1="694" y1="333" x2="712" y2="333" stroke="#8b949e" stroke-width="1.3"/><path d="M721 333 L712 328 L712 338 Z" fill="#8b949e"/>
+<line x1="240" y1="443" x2="258" y2="443" stroke="#8b949e" stroke-width="1.3"/><path d="M267 443 L258 438 L258 448 Z" fill="#8b949e"/>
+<line x1="467" y1="443" x2="485" y2="443" stroke="#8b949e" stroke-width="1.3"/><path d="M494 443 L485 438 L485 448 Z" fill="#8b949e"/>
+<line x1="694" y1="443" x2="712" y2="443" stroke="#8b949e" stroke-width="1.3"/><path d="M721 443 L712 438 L712 448 Z" fill="#8b949e"/>
+<line x1="240" y1="553" x2="258" y2="553" stroke="#8b949e" stroke-width="1.3"/><path d="M267 553 L258 548 L258 558 Z" fill="#8b949e"/>
+<line x1="467" y1="553" x2="485" y2="553" stroke="#8b949e" stroke-width="1.3"/><path d="M494 553 L485 548 L485 558 Z" fill="#8b949e"/>
+<line x1="921" y1="223" x2="959" y2="223" stroke="#ff7b62" stroke-width="1.6"/><path d="M968 223 L959 218 L959 228 Z" fill="#ff7b62"/>
+<path d="M968 278 H137 V295" fill="none" stroke="#ff7b62" stroke-width="1.6"/><path d="M137 304 L132 295 L142 295 Z" fill="#ff7b62"/>
+<path d="M818 362 V388 H137 V405" fill="none" stroke="#8b949e" stroke-width="1.3"/><path d="M137 414 L132 405 L142 405 Z" fill="#8b949e"/>
+<path d="M818 472 V498 H137 V515" fill="none" stroke="#8b949e" stroke-width="1.3"/><path d="M137 524 L132 515 L142 515 Z" fill="#8b949e"/>
 <line x1="40" y1="622" x2="915" y2="622" stroke="#30363d" stroke-width="1"/>
 <rect x="40" y="640" width="26" height="16" rx="3" fill="#161b22" stroke="#30363d"/><text x="74" y="653" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#8b949e">파일 / file</text>
 <rect x="172" y="640" width="26" height="16" rx="6" fill="#161b22" stroke="#ff7b62" stroke-width="1.5"/><text x="206" y="653" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11" fill="#8b949e">도구 / tool (tools/*.mjs)</text>
