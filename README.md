@@ -6,6 +6,11 @@ A release-gate loop for coding agents. Not a linter, not a prompt pack — a *pr
 
 > The one rule that makes the rest work: **a claim is not a defect until you have run it.**
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/loop-anim-dark.gif">
+  <img alt="Animated CHA loop: a marker walks hunt, brief, second eye (read-only, on another platform), judge, red test, fix, mutant, gate and record. Each lap closes one open issue, the loop goes around again while the count is above zero, and at zero every step turns green — ready to ship once a human says go." src="docs/diagrams/loop-anim.gif" width="100%">
+</picture>
+
 ---
 
 ## Why this exists

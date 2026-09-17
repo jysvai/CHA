@@ -86,6 +86,19 @@ arithmetically is not enough — it cannot see a connector drawn across a box, a
 that is exactly the defect this generator keeps producing. A line routed through
 a node strikes out the text inside it while every width check still passes.
 
+The animated loop at the top of the README, `docs/diagrams/loop-anim*.gif`, is
+generated too, by a separate tool that photographs each frame with headless
+Chrome and stitches the frames with ffmpeg — so it needs both installed:
+
+```bash
+node tools/gen-loop-gif.mjs
+```
+
+It carries its own copy of the palette, because `tools/gen-diagrams.mjs` writes
+files the moment it is imported. Change a colour in one, change it in both. And
+**play the GIF** rather than checking a still: a frame that is right on its own
+can still be wrong in sequence.
+
 ## Numbers
 
 **Every number in this repository is measured.** None of them are estimates,

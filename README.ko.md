@@ -6,6 +6,11 @@
 
 > 나머지를 다 떠받치는 규칙 하나: **돌려 보기 전에는 결함이 아니다.**
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/loop-anim-ko-dark.gif">
+  <img alt="CHA 루프 애니메이션 — 표시가 사냥 · 브리핑 · 2차 눈(다른 플랫폼, 읽기 전용) · 판정 · 빨간 검사 · 고침 · 어긋 · 관문 · 기록을 차례로 지난다. 한 바퀴마다 열린 이슈가 하나 줄고, 0 보다 크면 다시 돈다. 0 이 되면 모든 걸음이 초록으로 바뀌고, 배포는 사람이 허락한 뒤에만." src="docs/diagrams/loop-anim-ko.gif" width="100%">
+</picture>
+
 ---
 
 ## 왜 필요한가
