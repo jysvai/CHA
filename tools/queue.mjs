@@ -31,14 +31,13 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { join, basename } from 'node:path';
+import { 읽기, 숫자, 멈춤 } from './argv.mjs';
 
+const 쓰는법 = 'queue.mjs [--briefings .cha/briefings] [--answers .cha/answers] [--only <tag>] [--redo]';
 const 뿌리 = process.cwd();
-const 인자 = process.argv.slice(2);
-const 값 = (이름, 기본) => {
-  const i = 인자.indexOf(`--${이름}`);
-  return i >= 0 && 인자[i + 1] && !인자[i + 1].startsWith('--') ? 인자[i + 1] : 기본;
-};
-const 깃발 = (이름) => 인자.includes(`--${이름}`);
+const 읽은것 = 읽기(process.argv.slice(2), { 값받는것: ['briefings', 'answers', 'only'], 깃발들: ['redo'] });
+if (읽은것.문제.length) 멈춤(읽은것.문제, 쓰는법);
+if (읽은것.위치들.length) 멈춤([`queue.mjs takes no file arguments. Got: ${읽은것.위치들.join(', ')}`], 쓰는법);
 
 const 설정길 = join(뿌리, '.cha', 'config.json');
 if (!existsSync(설정길)) { console.error('  .cha/config.json not found. Run /cha-init first.'); process.exit(2); }
@@ -64,13 +63,23 @@ if (설정.secondEye?.model == null) {
   console.error('  between rounds, and round-to-round numbers then mean nothing.');
 }
 
-const 브리핑칸 = 값('briefings', '.cha/briefings');
-const 답칸 = 값('answers', '.cha/answers');
-const 하나만 = 값('only', null);
-const 다시 = 깃발('redo');
-const 최대재시도 = Number(설정.secondEye?.maxRetries ?? 6);
-const 기본대기 = Number(설정.secondEye?.backoffMs ?? 20 * 60 * 1000);   // 20 minutes
-const 한번제한 = Number(설정.secondEye?.timeoutMs ?? 10 * 60 * 1000);
+const 브리핑칸 = 읽은것.값들.briefings ?? '.cha/briefings';
+const 답칸 = 읽은것.값들.answers ?? '.cha/answers';
+const 하나만 = 읽은것.값들.only ?? null;
+const 다시 = !!읽은것.깃발.redo;
+
+// These three used to be bare Number(). `maxRetries: "six"` became NaN, the
+// send loop's `NaN >= 0` was false, and the queue finished having asked
+// nothing while printing "0 answered · 0 already · 0 lost" and exiting 0 —
+// the step this whole method is named after, doing nothing, calling it done.
+const 칸들 = [
+  ['secondEye.maxRetries', 설정.secondEye?.maxRetries, 6],
+  ['secondEye.backoffMs', 설정.secondEye?.backoffMs, 20 * 60 * 1000],
+  ['secondEye.timeoutMs', 설정.secondEye?.timeoutMs, 10 * 60 * 1000],
+].map(([이름, 날것, 기본]) => 숫자(이름, 날것, 기본));
+const 설정문제 = 칸들.filter((x) => x.문제).map((x) => x.문제);
+if (설정문제.length) 멈춤([...설정문제, 'in .cha/config.json'], 쓰는법);
+const [최대재시도, 기본대기, 한번제한] = 칸들.map((x) => x.값);
 
 mkdirSync(join(뿌리, 답칸), { recursive: true });
 
@@ -126,6 +135,13 @@ function 한번물어보기(길) {
     // Always close stdin. A reviewer command that reads to EOF and never gets
     // one hangs until the timeout, and the queue then loses an answer to a
     // pipe nobody closed.
+    //
+    // The listener is not decoration. A reviewer that exits before reading its
+    // briefing raises EPIPE asynchronously, and try/catch cannot see it: the
+    // event reaches a stream with no listener and takes the whole run down with
+    // a Node stack, losing every answer still queued behind it. Measured at 1
+    // run in 8 with a small briefing, and every run with a large one.
+    아이.stdin.on('error', (탈) => { 샌것 += `\n${탈?.message ?? 탈}`; });
     try { 아이.stdin.end(파이프인가 ? readFileSync(길, 'utf8') : undefined); } catch { /* already gone */ }
 
     아이.on('error', (탈) => { clearTimeout(시계); 맺음({ code: -1, 나온것, 샌것: `${샌것}\n${탈?.message ?? 탈}`, 끊었나 }); });

@@ -1,5 +1,71 @@
 # Changelog
 
+## 1.1.0 — 2026-09-18
+
+CHA run against CHA. The loop had been packaged and shipped without ever being
+pointed at the repository that ships it, and the first round found eight defects
+in its own tools — four of them the repository's own defect classes, living in
+the tools built to find them. Every one was confirmed by **running it** before
+anything was edited, fixed red-test-first, and given a mutant.
+
+The round, with the command next to every number, is `.cha/record.md`.
+Measured: 23 suspicions → 10 참 / 1 거짓 / 12 못 잼 · 8 fixes · 8 mutants ·
+full sweep `8 잡음 · 0 샜음 · 0 못 잼` in 8m58s.
+
+### Fixed
+
+- **`tools/mutate.mjs` scored an unmeasurable mutant as caught.** A test killed
+  by the timeout — or one that never started — returns a null status, which is
+  not zero, so the sweep called it 잡음. The line was never measured and sat on
+  the healthy side of the table, and the sweep exited 0. It is now 못 잼, with
+  the reason, and the sweep fails on it.
+- **`tools/add-mutant.mjs` silently halved a mutant list.** Against the
+  `{ "mutants": [] }` root that `docs/en/10-faq.md` offers, it created a second
+  list under `어긋들` and the sweep read that one. Every mutant written before
+  that moment stopped being swept while staying visible in the file.
+- **`tools/queue.mjs` could send nothing and report success.**
+  `secondEye.maxRetries: "six"` became `NaN`, `NaN >= 0` is false, and the send
+  loop never ran once: `0 answered · 0 already · 0 lost`, exit 0. The three
+  numeric config keys are now checked, and a word where a number belongs stops
+  the run.
+- **`tools/queue.mjs` died on a reviewer that did not read its briefing.** EPIPE
+  arrived on a stream with no listener and took the whole run down with it,
+  losing every answer still queued behind. Measured at 1 run in 8 with a small
+  briefing, every run with a large one.
+- **`tools/brief.mjs --max 20kb` removed the cap.** `Number('20kb')` is `NaN`,
+  every `> NaN` is false, so nothing was cut and nothing was flagged: one 41.9KB
+  briefing, under the line `cap NaNKB`, exit 0.
+- **`tools/brief.mjs` exited 0 on a briefing over the cap**, so only a human
+  reading the screen could tell. It now exits non-zero.
+- **`tools/brief.mjs` handed out a stack trace** for a directory argument, and
+  could not read an absolute path — the form Windows tab-completion and every
+  `file:line` quote produce.
+
+### Added
+
+- **`tools/argv.mjs`** — argument reading that stops instead of guessing. An
+  unknown option is a stop, a flag where a value belongs is a stop, a number
+  that is not a number is a stop. `--only --redo` used to send every briefing
+  at quota cost while the screen said one tag had been asked; `--brieffings x`
+  ran the default directory and said nothing.
+  It is a module and not four copies of an `indexOf` because rules with no seam
+  get no tests.
+- **`test/tools.test.js`** — twelve checks, the first tests this repository has
+  had for its own tools. Each one is a defect that was confirmed by running the
+  tool, and each was watched fail before the tool was touched.
+- **`.cha/`** — this repository now runs its own loop: `config.json`,
+  eight mutants in `mutants.json`, and the cumulative record.
+
+### Found by the mutants, not by reading
+
+- One of the new tests could not tell two reasons apart: deleting the `--max`
+  number check left it green, because the guard below says `--max must be
+  greater than 0` and the assertion only looked for `--max`. Defect class 3,
+  inside the test written to prove class 3 matters.
+- The control test was flaky one run in four — node's own start-up passing a
+  four-second fixture timeout. Before the timeout fix that slowness scored as
+  잡음, so it could not have been seen.
+
 ## 1.0.0 — 2026-09-16
 
 First public release. Everything here was extracted from a 39-round release

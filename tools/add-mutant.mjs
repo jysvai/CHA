@@ -77,7 +77,15 @@ if (바꿀것 !== null && 바꿀것 === 찾을것) { console.error('  --replace 
 // ── id ──────────────────────────────────────────────────────────────────
 const 목록길 = join(뿌리, '.cha', 'mutants.json');
 const 원자료 = existsSync(목록길) ? JSON.parse(readFileSync(목록길, 'utf8')) : { 어긋들: [] };
-const 어긋들 = Array.isArray(원자료) ? 원자료 : (원자료.어긋들 ??= []);
+// Whichever list is already there is the list. `어긋들 ??= []` used to add a
+// second one beside an existing `mutants` — the shape docs/en/10-faq.md offers
+// — and the sweep reads 어긋들 first, so every mutant written before that
+// moment stopped being swept while staying visible in the file. In the list,
+// named, counted by eye, measuring nothing: the defect this repository hunts.
+const 어긋들 = Array.isArray(원자료) ? 원자료
+  : Array.isArray(원자료.어긋들) ? 원자료.어긋들
+    : Array.isArray(원자료.mutants) ? 원자료.mutants
+      : (원자료.어긋들 = []);
 
 const 씨 = basename(곳, extname(곳)).toLowerCase().replace(/[^a-z0-9]+/g, '-');
 const 쓰인번호 = 어긋들

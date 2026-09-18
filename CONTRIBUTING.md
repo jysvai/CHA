@@ -53,12 +53,30 @@ will delete it without anything noticing.
 
 ```bash
 node --check tools/*.mjs
+node test/tools.test.js
 cd examples && node test/size.test.js && node ../tools/mutate.mjs
 ```
 
-The example sweep must come back `2 잡음/caught · 0 샜음/leaked`. If you changed
-`tools/mutate.mjs`, run the example sweep on your platform and paste the output
-— that is the only end-to-end check this repository has.
+`test/tools.test.js` runs the tools against throwaway repositories in a temp
+directory: a mutant that hangs, a config with a word where a number belongs, a
+reviewer that exits without reading its briefing. Each check is a defect that
+was confirmed by running the tool, so a failure here is a regression, not a
+style opinion. The example sweep must come back `2 잡음/caught · 0 샜음/leaked`.
+
+Run the tool suite **more than once.** One green run cannot tell a stable test
+from a lucky one — the control in round 1 was flaky one run in four and passed
+the first time it was measured.
+
+This repository is also reviewed by its own loop, so the fixes have mutants:
+
+```bash
+node tools/mutate.mjs
+```
+
+Eight, all 잡음, about nine minutes. If you change a tool, break your fix on
+purpose and check that `test/tools.test.js` goes red for it — and add the mutant
+while you still know which character carried the meaning. `.cha/record.md` is
+the cumulative record and is never edited downward.
 
 ## Diagrams
 

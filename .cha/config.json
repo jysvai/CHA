@@ -1,0 +1,24 @@
+{
+  "gate": {
+    "tools": "node test/tools.test.js",
+    "example": "node examples/test/size.test.js",
+    "syntax": "node --check tools/argv.mjs"
+  },
+  "secondEye": {
+    "command": null,
+    "model": null,
+    "mode": "read-only",
+    "maxRetries": 6,
+    "backoffMs": 1200000,
+    "timeoutMs": 600000
+  },
+  "briefing": {
+    "maxBytes": 20480
+  },
+  "mutate": {
+    "testCommand": "node {file}",
+    "copy": ["tools", "test", "examples"],
+    "timeoutMs": 120000
+  },
+  "writer": "claude-only"
+}

@@ -18,27 +18,37 @@
 //
 //   node tools/brief.mjs src/foo.js
 //   node tools/brief.mjs src/foo.js --out .cha/briefings --max 20480
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
-import { join, basename, extname } from 'node:path';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from 'node:fs';
+import { join, basename, extname, isAbsolute } from 'node:path';
+import { 읽기, 숫자, 멈춤 } from './argv.mjs';
 
+const 쓰는법 = 'brief.mjs <file> [--out .cha/briefings] [--max 20480]';
 const 뿌리 = process.cwd();
 const 인자 = process.argv.slice(2);
-const 값 = (이름, 기본) => {
-  const i = 인자.indexOf(`--${이름}`);
-  return i >= 0 && 인자[i + 1] && !인자[i + 1].startsWith('--') ? 인자[i + 1] : 기본;
-};
+const 읽은것 = 읽기(인자, { 값받는것: ['out', 'max'] });
+if (읽은것.문제.length) 멈춤(읽은것.문제, 쓰는법);
 
-const 위치들 = 인자.filter((a, i) => !a.startsWith('--') && !(i > 0 && 인자[i - 1].startsWith('--')));
-const 곳 = (위치들[0] ?? '').replace(/\\/g, '/');
-if (!곳) { console.error('  usage: brief.mjs <file> [--out .cha/briefings] [--max 20480]'); process.exit(2); }
+const 곳 = (읽은것.위치들[0] ?? '').replace(/\\/g, '/');
+if (!곳) 멈춤(['no file to brief'], 쓰는법);
+// One file per run. A directory used to reach readFileSync and hand the user
+// an EISDIR stack, which reads like a broken tool rather than a wrong argument.
+if (읽은것.위치들.length > 1) 멈춤([`brief.mjs takes one file at a time. Got ${읽은것.위치들.length}: ${읽은것.위치들.join(', ')}`], 쓰는법);
 
 const 설정길 = join(뿌리, '.cha', 'config.json');
 const 설정 = existsSync(설정길) ? JSON.parse(readFileSync(설정길, 'utf8')) : {};
-const 최대 = Number(값('max', 설정.briefing?.maxBytes ?? 20480));
-const 나갈곳 = 값('out', '.cha/briefings');
+const 최대칸 = 숫자('--max', 읽은것.값들.max ?? 설정.briefing?.maxBytes, 20480);
+if (최대칸.문제) 멈춤([최대칸.문제, 'The cap is the only number this tool has. A cap that is not a number is no cap.'], 쓰는법);
+if (!최대칸.값) 멈춤(['--max must be greater than 0'], 쓰는법);
+const 최대 = 최대칸.값;
+const 나갈곳 = 읽은것.값들.out ?? '.cha/briefings';
 
-const 파일길 = join(뿌리, 곳);
+// An absolute path is what Windows tab-completion and every file:line quote
+// hand you. Joining it onto the working directory produced C:\repo\C:\repo\…
+// and "no such file" for a file the tool was looking straight at.
+const 파일길 = isAbsolute(곳) ? 곳 : join(뿌리, 곳);
 if (!existsSync(파일길)) { console.error(`  no such file: ${곳}`); process.exit(2); }
+if (statSync(파일길).isDirectory()) 멈춤([`${곳} is a directory. brief.mjs takes one file at a time —`,
+  'cut each file separately so every briefing says which file it is about.'], 쓰는법);
 
 const 본문 = readFileSync(파일길, 'utf8');
 const 줄들 = 본문.split(/\r?\n/);
@@ -192,6 +202,10 @@ if (너무큰것.length) {
   console.log(`  ${너무큰것.length} over the cap — one function in each is bigger than the cap by itself:`);
   for (const x of 너무큰것) console.log(`    ${x.표}  ${(x.바이트 / 1024).toFixed(1)}KB  lines ${x.줄}`);
   console.log('  Split by hand at a boundary inside it, or brief that function alone and say which parts are missing.');
+  // Non-zero, because the screen is not the only reader. A script that briefs a
+  // directory of files and checks nothing would otherwise ship the oversized
+  // ones — and an answer truncated mid-finding ends on a complete sentence.
+  process.exitCode = 1;
 }
 console.log('');
 console.log('  Before sending: strip keys, tokens, internal hostnames, and customer data.');

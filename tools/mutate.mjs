@@ -200,6 +200,23 @@ try {
     let r;
     try { r = 돌리기(어긋.검사); } finally { writeFileSync(파일, 원본, 'utf8'); }
 
+    // A test that was killed did not notice anything — it never got to the
+    // assertion. Scoring that as 잡음 puts an unmeasured line on the healthy
+    // side of the table, which is this repository's own defect class living
+    // inside the tool built to find it: present, named, counted, measuring
+    // nothing. spawnSync reports both the kill and a failure to start as a
+    // null status, and neither of them is a verdict.
+    if (r.섰나 || r.code === null) {
+      결과.push({
+        id: 어긋.id, 곳: 어긋.곳, 무엇: 어긋.무엇, 판정: '못잼',
+        까닭: `${어긋.검사} timed out after ${(제한시간 / 1000).toFixed(0)}s or never started — nothing was measured`,
+        걸린: r.걸린,
+      });
+      못잰것++;
+      if (!json && 어긋들.length > 12) process.stdout.write(색(Y, '?'));
+      continue;
+    }
+
     결과.push({
       id: 어긋.id, 곳: 어긋.곳, 무엇: 어긋.무엇, 그러면: 어긋.그러면, 검사: 어긋.검사,
       판정: r.code === 0 ? '샜음' : '잡음',

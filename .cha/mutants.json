@@ -1,0 +1,76 @@
+{
+  "어긋들": [
+    {
+      "id": "mutate-001",
+      "곳": "tools/mutate.mjs",
+      "무엇": "a killed test is not a verdict",
+      "그러면": "a mutation whose test was killed at the timeout is counted as 잡음 — an unmeasured line on the healthy side of the table",
+      "찾을것": "    if (r.섰나 || r.code === null) {",
+      "바꿀것": "    if (false) {",
+      "검사": "test/tools.test.js"
+    },
+    {
+      "id": "add-mutant-001",
+      "곳": "tools/add-mutant.mjs",
+      "무엇": "whichever mutant list is already there is the list",
+      "그러면": "a second list is created beside { \"mutants\": [] } and every mutant written before that moment stops being swept while staying visible in the file",
+      "찾을것": "    : Array.isArray(원자료.mutants) ? 원자료.mutants",
+      "바꿀것": "    : false ? 원자료.mutants",
+      "검사": "test/tools.test.js"
+    },
+    {
+      "id": "queue-001",
+      "곳": "tools/queue.mjs",
+      "무엇": "the stdin pipe has an error listener",
+      "그러면": "a reviewer that exits without reading its briefing raises EPIPE on a stream nobody listens to and the whole queue dies mid-run",
+      "찾을것": "    아이.stdin.on('error', (탈) => { 샌것 += `\\n${탈?.message ?? 탈}`; });",
+      "바꿀것": "    아이.stdin.on('nothing', (탈) => { 샌것 += `\\n${탈?.message ?? 탈}`; });",
+      "검사": "test/tools.test.js"
+    },
+    {
+      "id": "queue-002",
+      "곳": "tools/queue.mjs",
+      "무엇": "a non-numeric retry count stops the run",
+      "그러면": "maxRetries \"six\" becomes NaN, the send loop never runs, and the queue reports 0 answered · 0 lost with exit 0",
+      "찾을것": "if (설정문제.length) 멈춤([...설정문제, 'in .cha/config.json'], 쓰는법);",
+      "바꿀것": "if (false) 멈춤([...설정문제, 'in .cha/config.json'], 쓰는법);",
+      "검사": "test/tools.test.js"
+    },
+    {
+      "id": "argv-001",
+      "곳": "tools/argv.mjs",
+      "무엇": "an unknown option stops the tool",
+      "그러면": "a typo'd flag is dropped and the tool runs against its defaults — the whole briefings directory instead of the named one",
+      "찾을것": "    if (!아는것.has(이름)) { 문제.push(`unknown option: ${칸}`); continue; }",
+      "바꿀것": "    if (!아는것.has(이름)) { continue; }",
+      "검사": "test/tools.test.js"
+    },
+    {
+      "id": "brief-001",
+      "곳": "tools/brief.mjs",
+      "무엇": "an over-cap briefing exits non-zero",
+      "그러면": "a script briefing many files ships the oversized ones, and the truncated answer ends on a complete sentence so nobody notices",
+      "찾을것": "  process.exitCode = 1;",
+      "바꿀것": "  /* no exit code */",
+      "검사": "test/tools.test.js"
+    },
+    {
+      "id": "brief-002",
+      "곳": "tools/brief.mjs",
+      "무엇": "a --max that is not a number stops the tool",
+      "그러면": "Number('20kb') is NaN, every > NaN is false, and the cap stops existing",
+      "찾을것": "if (최대칸.문제) 멈춤([최대칸.문제, 'The cap is the only number this tool has. A cap that is not a number is no cap.'], 쓰는법);",
+      "바꿀것": "if (false) 멈춤([최대칸.문제, 'The cap is the only number this tool has. A cap that is not a number is no cap.'], 쓰는법);",
+      "검사": "test/tools.test.js"
+    },
+    {
+      "id": "argv-002",
+      "곳": "tools/argv.mjs",
+      "무엇": "a flag where a value belongs stops the tool",
+      "그러면": "the pair '--only --redo' takes --redo as the value, the filter falls back to null, and every briefing is sent at quota cost",
+      "찾을것": "    else if (다음.startsWith('-')) 문제.push(`--${이름} needs a value, and ${다음} is an option, not a value`);",
+      "바꿀것": "    else if (다음.startsWith('-')) { /* nothing */ }",
+      "검사": "test/tools.test.js"
+    }
+  ]
+}

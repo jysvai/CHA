@@ -61,6 +61,34 @@ CHA was not designed on a whiteboard. It was extracted from the release review o
 
 ---
 
+## Run against itself
+
+Round 1 of CHA on CHA, **2026-09-18**. Eight defects in its own tools, every one
+confirmed by running it before anything was edited:
+
+| | |
+|---|---|
+| Suspicions settled by execution | **23 → 10 참 · 1 거짓 · 12 못 잼** |
+| Fixes landed | **8**, red test first — the suite went `10 fail / 2 pass` before a line was touched |
+| Mutants registered | **8** · full sweep **8 잡음 · 0 샜음 · 0 못 잼**, 8m58s |
+| Tool tests | **12 checks** — the first this repository has had |
+
+The ones worth naming: a mutation whose test was **killed at the timeout** was
+scored `잡음`, so an unmeasured line sat on the healthy side of the table. A
+mutant list written the way the FAQ offers **lost its entries** while still
+showing them in the file. `secondEye.maxRetries: "six"` made the queue send
+nothing and report success. `--max 20kb` removed the cap and shipped a 41.9KB
+briefing under the line `cap NaNKB`. All four are this repository's own defect
+classes, living in the tools built to find them.
+
+Breaking the fixes on purpose found two more: a **test that could not tell two
+reasons apart**, and a **control flaky one run in four** — invisible until the
+timeout fix stopped scoring slowness as success.
+
+The round, with the command next to every number: **[.cha/record.md](.cha/record.md)**.
+
+---
+
 ## The loop
 
 <picture>
